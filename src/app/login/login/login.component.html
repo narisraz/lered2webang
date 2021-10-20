@@ -1,17 +1,18 @@
-<app-empty>
-  <mat-card>
+<app-empty class="flex h-screen">
+  <mat-card class="w-1/4 m-auto">
     <mat-card-title>Login</mat-card-title>
-    <mat-card-content>
-      <mat-form-field>
+    <mat-card-content class="flex-col">
+      <mat-form-field class="w-full">
         <mat-label>Email</mat-label>
         <input matInput placeholder="Email">
       </mat-form-field>
-      <mat-form-field>
+      <mat-form-field class="w-full">
         <mat-label>Mot de passe</mat-label>
         <input matInput placeholder="Mot de passe">
       </mat-form-field>
+      <mat-checkbox>Rester connecter</mat-checkbox>
     </mat-card-content>
-    <mat-card-actions>
+    <mat-card-actions class="text-center">
       <button mat-raised-button>Login</button>
     </mat-card-actions>
   </mat-card>
