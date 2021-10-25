@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "redaction-8c584": {
+      "hosting": {
+        "lered2web": [
+          "redaction-8c584"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "redaction-8c584"
+  }
+}
