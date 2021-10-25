@@ -4,6 +4,8 @@ import {MustMatch} from "../../../shared/form/MustMatch";
 import {MAT_DIALOG_DATA} from "@angular/material/dialog";
 import DialogData from "../../../shared/dialog/DialogData";
 import {UserWithCredential} from "../UserWithCredential";
+import {ROLES} from "../../../shared/dialog/Constants";
+import SelectData from "../../../shared/form/select-field/SelectData";
 
 
 @Component({
@@ -14,6 +16,12 @@ import {UserWithCredential} from "../UserWithCredential";
 export class UserFormComponent implements OnInit {
 
   formGroup: FormGroup
+  roles = ROLES.map((role, index): SelectData => {
+    return {
+      code: index,
+      label: role
+    }
+  })
 
   constructor(
     private formBuilder: FormBuilder,
@@ -27,7 +35,8 @@ export class UserFormComponent implements OnInit {
       firstName: [fields?.firstName, Validators.required],
       email: [fields?.email, [Validators.required, Validators.email]],
       password: [fields?.password, Validators.required],
-      confirm: [fields?.password, Validators.required]
+      confirm: [fields?.password, Validators.required],
+      role: [fields?.role, Validators.required],
     }, {
       validators: MustMatch('password', 'confirm')
     } as AbstractControlOptions)

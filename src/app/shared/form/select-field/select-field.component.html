@@ -1,0 +1,13 @@
+<div [formGroup]="formGroup">
+  <mat-form-field class="w-full">
+    <mat-label>{{label}}</mat-label>
+    <mat-select [placeholder]="label" [formControlName]="name" [required]="required">
+      <mat-option *ngFor="let value of values" [value]="value.code">
+        {{value.label}}
+      </mat-option>
+    </mat-select>
+    <mat-error *ngIf="f[name].hasError('required')">
+      {{errors.required}}
+    </mat-error>
+  </mat-form-field>
+</div>

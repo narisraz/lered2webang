@@ -8,6 +8,8 @@ import {EmailFieldComponent} from './email-field/email-field.component';
 import {PasswordFieldComponent} from './password-field/password-field.component';
 import {FormFieldComponent} from './form-field/form-field.component';
 import {MatIconModule} from "@angular/material/icon";
+import { SelectFieldComponent } from './select-field/select-field.component';
+import {MatSelectModule} from "@angular/material/select";
 
 
 @NgModule({
@@ -15,19 +17,22 @@ import {MatIconModule} from "@angular/material/icon";
     TextFieldComponent,
     EmailFieldComponent,
     PasswordFieldComponent,
-    FormFieldComponent
+    FormFieldComponent,
+    SelectFieldComponent
   ],
     imports: [
         CommonModule,
         MatFormFieldModule,
         ReactiveFormsModule,
         MatInputModule,
-        MatIconModule
+        MatIconModule,
+        MatSelectModule
     ],
   exports: [
     TextFieldComponent,
     EmailFieldComponent,
-    PasswordFieldComponent
+    PasswordFieldComponent,
+    SelectFieldComponent
   ]
 })
 export class FormModule { }

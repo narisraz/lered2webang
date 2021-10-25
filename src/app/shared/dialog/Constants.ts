@@ -8,3 +8,7 @@ export const FORM_ERRORS = {
   email: 'Email invalide',
   passwordMustMatch: 'Les mots de passe doivent correspondre'
 }
+
+export const ADMIN = "Administrateur"
+export const USER = "Utilisateur"
+export const ROLES = [USER, ADMIN]

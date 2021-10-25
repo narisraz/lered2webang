@@ -6,7 +6,7 @@ import {TableComponent} from "../../shared/table/table.component";
 import {MatDialog} from "@angular/material/dialog";
 import {ConfirmComponent} from "../../shared/dialog/confirm/confirm.component";
 import {Observable} from "rxjs";
-import {CONFIRM} from "../../shared/dialog/Constants";
+import {CONFIRM, ROLES, USER} from "../../shared/dialog/Constants";
 import {UserFormComponent} from "./user-form/user-form.component";
 import {UserWithCredential} from "./UserWithCredential";
 
@@ -18,6 +18,7 @@ import {UserWithCredential} from "./UserWithCredential";
 export class UsersComponent implements OnInit {
 
   users$: Observable<User[]>
+  roles = ROLES
   tableColumns: Column[] = [
     { name: 'name', label: 'Nom' },
     { name: 'firstName', label: 'Prénom' },
@@ -64,14 +65,15 @@ export class UsersComponent implements OnInit {
     })
   }
 
-  editUser(user: User): void {
+  editUser(user: UserWithCredential): void {
     const userWithCredential: UserWithCredential = {
       name: 'Raz',
       userId: '0',
       id: '0',
       email: 'naris@gmail.com',
       firstName: 'Naris',
-      password: 'bob.12'
+      password: 'bob.12',
+      role: ROLES.indexOf(USER)
     }
     const ref = this.dialog.open(UserFormComponent, {
       maxWidth: '500px',
