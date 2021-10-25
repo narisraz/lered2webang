@@ -1,7 +1,7 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
 
-import { LoginRoutingModule } from './login-routing.module';
+import {LoginRoutingModule} from './login-routing.module';
 import {TemplateModule} from "../template/template.module";
 import {LoginComponent} from "./login/login.component";
 import {MatCardModule} from "@angular/material/card";
@@ -24,6 +24,7 @@ import {MatCheckboxModule} from "@angular/material/checkbox";
         MatFormFieldModule,
         MatInputModule,
         MatCheckboxModule
-    ]
+    ],
+  exports: [LoginComponent]
 })
 export class LoginModule { }

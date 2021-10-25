@@ -1,17 +1,17 @@
-<mat-toolbar color="primary">
+<mat-toolbar color="primary" class="fixed h-16 z-10">
   <button mat-icon-button (click)="sidenav.toggle()">
     <mat-icon>menu</mat-icon>
   </button>
   <span>Le Red2Web</span>
 </mat-toolbar>
 
-<mat-sidenav-container>
+<mat-sidenav-container class="h-full pt-16">
 
-  <mat-sidenav #sidenav mode="side" opened="true">
+  <mat-sidenav #sidenav mode="side" opened="true" class="pt-16">
     Sidenav content
   </mat-sidenav>
 
-  <mat-sidenav-content>
+  <mat-sidenav-content class="m-4">
     <ng-content></ng-content>
   </mat-sidenav-content>
 

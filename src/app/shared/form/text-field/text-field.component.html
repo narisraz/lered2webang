@@ -1,0 +1,10 @@
+<div [formGroup]="formGroup">
+  <mat-form-field class="w-full">
+    <mat-label>{{label}}</mat-label>
+    <input matInput [placeholder]="label" [formControlName]="name" [required]="required">
+    <mat-error *ngIf="f[name].hasError('required')">
+      {{errors.required}}
+    </mat-error>
+  </mat-form-field>
+</div>
+
