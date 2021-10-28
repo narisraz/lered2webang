@@ -9,22 +9,28 @@ import {MatButtonModule} from "@angular/material/button";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import {MatCheckboxModule} from "@angular/material/checkbox";
+import {FormModule} from "../shared/form/form.module";
+import {MatSnackBarModule} from "@angular/material/snack-bar";
+import {FormsModule} from "@angular/forms";
 
 
 @NgModule({
   declarations: [
     LoginComponent
   ],
-    imports: [
-        CommonModule,
-        LoginRoutingModule,
-        TemplateModule,
-        MatCardModule,
-        MatButtonModule,
-        MatFormFieldModule,
-        MatInputModule,
-        MatCheckboxModule
-    ],
+  imports: [
+    CommonModule,
+    LoginRoutingModule,
+    TemplateModule,
+    MatCardModule,
+    MatButtonModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatCheckboxModule,
+    FormModule,
+    MatSnackBarModule,
+    FormsModule
+  ],
   exports: [LoginComponent]
 })
 export class LoginModule { }

@@ -1,4 +1,8 @@
 import {Component, OnInit} from '@angular/core';
+import {AuthService} from "../../core/services/auth.service";
+import {Router} from "@angular/router";
+import {Observable} from "rxjs";
+import User from "../../core/interfaces/User";
 
 @Component({
   selector: 'app-main',
@@ -7,9 +11,21 @@ import {Component, OnInit} from '@angular/core';
 })
 export class MainComponent implements OnInit {
 
-  constructor() { }
+  loggedUser$: Observable<User>
+
+  constructor(
+    private auhService: AuthService,
+    private router: Router
+  ) { }
 
   ngOnInit(): void {
+    this.loggedUser$ = this.auhService.loggedUser
+  }
+
+  signOut() {
+    this.auhService.signOut().then(() => {
+      this.router.navigate(['login'])
+    })
   }
 
 }

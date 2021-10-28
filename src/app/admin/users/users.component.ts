@@ -8,7 +8,7 @@ import {ConfirmComponent} from "../../shared/dialog/confirm/confirm.component";
 import {Observable} from "rxjs";
 import {CANCEL, CONFIRM, ROLES} from "../../shared/dialog/Constants";
 import {UserFormComponent} from "./user-form/user-form.component";
-import {UserWithCredential} from "./UserWithCredential";
+import {UserWithCredential} from "../UserWithCredential";
 import {AuthService} from "../../core/services/auth.service";
 import {map} from "rxjs/operators";
 import EnhancedUser from "../../core/interfaces/EnhancedUser";
@@ -77,7 +77,7 @@ export class UsersComponent implements OnInit {
     ref.afterClosed().subscribe(result => {
       if (CANCEL != result) {
         const {confirm, ...data} = result
-        this.authService.signup(data)
+        this.authService.signUp(data)
       }
     })
   }

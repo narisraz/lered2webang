@@ -3,6 +3,22 @@
     <mat-icon>menu</mat-icon>
   </button>
   <span>Le Red2Web</span>
+  <div class="w-full"></div>
+  <button mat-icon-button [matMenuTriggerFor]="accountMenu">
+    <mat-icon>account_circle</mat-icon>
+  </button>
+  <mat-menu #accountMenu="matMenu">
+    <div class="m-2">
+      <button mat-menu-item *ngIf="loggedUser$ | async as loggedUser">
+        {{(loggedUser.firstName)}}
+      </button>
+      <mat-divider></mat-divider>
+      <button mat-menu-item (click)="signOut()">
+        <mat-icon>exit_to_app</mat-icon>
+        Se déconnecter
+      </button>
+    </div>
+  </mat-menu>
 </mat-toolbar>
 
 <mat-sidenav-container class="h-full pt-16">

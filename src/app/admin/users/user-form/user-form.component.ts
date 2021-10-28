@@ -3,7 +3,7 @@ import {AbstractControlOptions, FormBuilder, FormGroup, Validators} from "@angul
 import {MustMatch} from "../../../shared/form/MustMatch";
 import {MAT_DIALOG_DATA} from "@angular/material/dialog";
 import DialogData from "../../../shared/dialog/DialogData";
-import {UserWithCredential} from "../UserWithCredential";
+import {UserWithCredential} from "../../UserWithCredential";
 import {ROLES} from "../../../shared/dialog/Constants";
 import SelectData from "../../../shared/form/select-field/SelectData";
 import * as moment from "moment/moment";
