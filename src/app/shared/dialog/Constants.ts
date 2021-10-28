@@ -6,9 +6,12 @@ export const RESET = 3
 export const FORM_ERRORS = {
   required: 'Ce champ est obligatoire',
   email: 'Email invalide',
-  passwordMustMatch: 'Les mots de passe doivent correspondre'
+  passwordMustMatch: 'Les mots de passe doivent correspondre',
+  passwordMinLengthError: 'Le mot de passe doit contenir au moins 6 caractères'
 }
 
 export const ADMIN = "Administrateur"
 export const USER = "Utilisateur"
 export const ROLES = [USER, ADMIN]
+
+export const USER_COLLECTION = 'users'

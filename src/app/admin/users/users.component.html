@@ -1,3 +1,11 @@
 <app-main>
-  <app-table #table [data]="users$ | async" [columns]="tableColumns" (addElement)="addUser()" (editElement)="editUser($event)" (deleteElement)="deleteUser($event)"></app-table>
+  <app-table
+    #table
+    title="Liste des utilisateurs"
+    [data$]="users$"
+    [columns]="tableColumns"
+    (addElement)="addUser()"
+    (editElement)="editUser($event)"
+    (deleteElement)="deleteUser($event)"
+  ></app-table>
 </app-main>

@@ -6,6 +6,7 @@ import DialogData from "../../../shared/dialog/DialogData";
 import {UserWithCredential} from "../UserWithCredential";
 import {ROLES} from "../../../shared/dialog/Constants";
 import SelectData from "../../../shared/form/select-field/SelectData";
+import * as moment from "moment/moment";
 
 
 @Component({
@@ -25,21 +26,30 @@ export class UserFormComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    @Inject(MAT_DIALOG_DATA) public userWithCredentialDialogData: DialogData<UserWithCredential>
+    @Inject(MAT_DIALOG_DATA) public dialogData: DialogData<UserWithCredential>
   ) { }
 
   ngOnInit(): void {
-    const fields = this.userWithCredentialDialogData.fields
+    const fields = this.dialogData.fields
+    const disabledField: string[] | undefined = this.dialogData.disabledField
+
     this.formGroup = this.formBuilder.group({
+      authId: [fields?.authId],
+      fsId: [fields?.fsId],
+      insertDate: [fields?.insertDate],
+      updateDate: [fields?.updateDate],
+      hiringDate: [fields?.hiringDate ?? moment().local().format(), [Validators.required]],
       name: [fields?.name, [Validators.required]],
       firstName: [fields?.firstName, Validators.required],
       email: [fields?.email, [Validators.required, Validators.email]],
-      password: [fields?.password, Validators.required],
+      password: [fields?.password, [Validators.required, Validators.minLength(6)]],
       confirm: [fields?.password, Validators.required],
       role: [fields?.role, Validators.required],
     }, {
       validators: MustMatch('password', 'confirm')
     } as AbstractControlOptions)
+
+    disabledField?.forEach(field => this.f[field].disable())
   }
 
   get f() { return this.formGroup.controls }

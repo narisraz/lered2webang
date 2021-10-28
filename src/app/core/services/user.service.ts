@@ -1,26 +1,32 @@
 import {Injectable} from '@angular/core';
+import {AngularFirestore} from "@angular/fire/compat/firestore";
+import {CrudService} from "./crud.service";
+import {Observable} from "rxjs";
 import User from "../interfaces/User";
-import {Observable, of} from "rxjs";
-import AppService from "../interfaces/AppService";
-import USERS from "../mocks/users";
+import {USER_COLLECTION} from "../../shared/dialog/Constants";
+
 
 @Injectable({
   providedIn: 'root'
 })
-export class UserService implements AppService<User>{
+export class UserService extends CrudService{
 
-  constructor() { }
-
-  getAll(): Observable<User[]> {
-    return of(USERS)
+  constructor(
+    private firestore: AngularFirestore
+  ) {
+    super(firestore)
+    super.collection = USER_COLLECTION
   }
 
-  delete(user: User): Observable<User[]> {
-    return of(USERS.filter(u => u.id != user.id))
+  findByAuthId(authId: string): Observable<User[]> {
+    return this.firestore
+      .collection<User>(USER_COLLECTION, ref => ref.where('authId', '==', authId))
+      .valueChanges()
   }
 
-  add(user: User): Observable<User[]> {
-    USERS.push(user)
-    return of(USERS)
+  findByEmail(email: string): Observable<User[]> {
+    return this.firestore
+      .collection<User>(USER_COLLECTION, ref => ref.where('email', '==', email))
+      .valueChanges()
   }
 }

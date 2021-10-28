@@ -1,6 +1,7 @@
 <app-form [formGroup]="formGroup">
   <app-text-field [required]="true" [formGroup]="formGroup" label="Nom" name="name"></app-text-field>
   <app-text-field [required]="true" [formGroup]="formGroup" label="Prénom" name="firstName"></app-text-field>
+  <app-date-field [required]="true" [formGroup]="formGroup" label="Date d'embauche" name="hiringDate"></app-date-field>
   <app-email-field [required]="true" [formGroup]="formGroup" label="Email" name="email"></app-email-field>
   <app-password-field [required]="true" [formGroup]="formGroup" label="Mot de passe" name="password"></app-password-field>
   <app-password-field [required]="true" [formGroup]="formGroup" label="Confirmer le mot de passe" name="confirm"></app-password-field>

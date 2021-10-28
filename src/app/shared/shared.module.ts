@@ -10,6 +10,9 @@ import {MatInputModule} from "@angular/material/input";
 import {MatPaginatorModule} from "@angular/material/paginator";
 import {DialogModule} from "./dialog/dialog.module";
 import {FormModule} from "./form/form.module";
+import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
+import {MatProgressBarModule} from "@angular/material/progress-bar";
+import {MomentModule} from "ngx-moment";
 
 
 @NgModule({
@@ -26,7 +29,14 @@ import {FormModule} from "./form/form.module";
     MatFormFieldModule,
     MatInputModule,
     MatPaginatorModule,
-    FormModule
+    FormModule,
+    MatProgressSpinnerModule,
+    MatProgressBarModule,
+    MomentModule.forRoot({
+      relativeTimeThresholdOptions: {
+        m: 59
+      }
+    })
   ],
   exports: [
     DialogModule,

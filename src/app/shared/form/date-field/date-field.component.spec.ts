@@ -1,20 +1,20 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import {SelectFieldComponent} from './select-field.component';
+import {DateFieldComponent} from './date-field.component';
 
-describe('SelectFieldComponent', () => {
-  let component: SelectFieldComponent;
-  let fixture: ComponentFixture<SelectFieldComponent>;
+describe('DateFieldComponent', () => {
+  let component: DateFieldComponent;
+  let fixture: ComponentFixture<DateFieldComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ SelectFieldComponent ]
+      declarations: [ DateFieldComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(SelectFieldComponent);
+    fixture = TestBed.createComponent(DateFieldComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

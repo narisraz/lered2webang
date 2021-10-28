@@ -3,6 +3,7 @@ import Column from "./Column";
 import {MatPaginator} from "@angular/material/paginator";
 import {MatTableDataSource} from "@angular/material/table";
 import {MatSort} from "@angular/material/sort";
+import {Observable} from "rxjs";
 
 @Component({
   selector: 'app-table',
@@ -11,14 +12,13 @@ import {MatSort} from "@angular/material/sort";
 })
 export class TableComponent implements AfterViewInit, OnInit {
 
+  @Input() title: string
+
   @Input()
   columns: Column[] = []
 
   @Input()
-  data: any = []
-
-  @Input()
-  dataSource = new MatTableDataSource<any>()
+  data$: Observable<any>
 
   @Output()
   editElement: EventEmitter<any> = new EventEmitter<any>()
@@ -35,23 +35,29 @@ export class TableComponent implements AfterViewInit, OnInit {
   @ViewChild(MatSort)
   sort: MatSort;
 
+  loading = true
   displayedColumns: string[] = []
+  dataSource = new MatTableDataSource<any>()
 
   constructor() {}
 
   ngOnInit(): void {
     this.displayedColumns = this.columns.map(column => column.name)
-    this.dataSource.data = [...this.data]
-  }
-
-  newDataSource(data: any) {
-    this.dataSource.data = [...data]
+    this.data$.subscribe(data => {
+      this.loading = false
+      this.dataSource.data = data
+    })
   }
 
   ngAfterViewInit(): void {
     this.paginator._intl.itemsPerPageLabel = 'Elements par pages: '
     this.paginator._intl.getRangeLabel = this.getRangeLabel
     this.dataSource.paginator = this.paginator
+    this.columns.map(column => {
+      if (column.sort) {
+        this.sort.sort(column.sort)
+      }
+    })
     this.dataSource.sort = this.sort
   }
 

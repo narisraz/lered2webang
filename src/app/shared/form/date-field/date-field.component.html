@@ -1,0 +1,12 @@
+<div [formGroup]="formGroup">
+  <mat-form-field class="w-full">
+    <mat-label>{{label}}</mat-label>
+    <input matInput [matDatepicker]="picker" [value]="timestampToMoment(f[name].value)" (dateChange)="onDateChange($event, f[name])">
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+    <mat-error *ngIf="f[name].hasError('required')">
+      {{errors.required}}
+    </mat-error>
+  </mat-form-field>
+</div>
+

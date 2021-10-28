@@ -6,9 +6,14 @@ import {TableComponent} from "../../shared/table/table.component";
 import {MatDialog} from "@angular/material/dialog";
 import {ConfirmComponent} from "../../shared/dialog/confirm/confirm.component";
 import {Observable} from "rxjs";
-import {CONFIRM, ROLES, USER} from "../../shared/dialog/Constants";
+import {CANCEL, CONFIRM, ROLES} from "../../shared/dialog/Constants";
 import {UserFormComponent} from "./user-form/user-form.component";
 import {UserWithCredential} from "./UserWithCredential";
+import {AuthService} from "../../core/services/auth.service";
+import {map} from "rxjs/operators";
+import EnhancedUser from "../../core/interfaces/EnhancedUser";
+import * as _ from "lodash"
+
 
 @Component({
   selector: 'app-users',
@@ -17,11 +22,23 @@ import {UserWithCredential} from "./UserWithCredential";
 })
 export class UsersComponent implements OnInit {
 
-  users$: Observable<User[]>
+  users$: Observable<EnhancedUser[]>
   roles = ROLES
   tableColumns: Column[] = [
+    { name: 'email', label: 'Email' },
     { name: 'name', label: 'Nom' },
     { name: 'firstName', label: 'Prénom' },
+    { name: 'roleLabel', label: 'Droit' },
+    {
+      name: 'hiringDate',
+      label: 'Date d\'embauche',
+      type: 'date',
+      sort: {
+        id: 'hiringDate',
+        start: 'desc',
+        disableClear: false
+      }
+      },
     { name: 'actions', label: 'Actions' },
   ]
 
@@ -30,11 +47,23 @@ export class UsersComponent implements OnInit {
 
   constructor(
     private dialog: MatDialog,
-    private userService: UserService
+    private userService: UserService,
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
-    this.users$ = this.userService.getAll()
+    this.users$ = this.userService.getAll().pipe(
+      map(users => users.map(user => {
+        const roleLabel = ROLES[user.role]
+        const enhancedUser: EnhancedUser = {
+          ...user,
+          name: _.upperCase(user.name),
+          firstName: _.startCase(user.firstName),
+          roleLabel
+        }
+        return enhancedUser
+      }))
+    )
   }
 
   addUser(): void {
@@ -45,8 +74,11 @@ export class UsersComponent implements OnInit {
         title: 'Nouvel utilisateur'
       },
     })
-    ref.afterClosed().subscribe((result: User) => {
-      this.userService.add(result)
+    ref.afterClosed().subscribe(result => {
+      if (CANCEL != result) {
+        const {confirm, ...data} = result
+        this.authService.signup(data)
+      }
     })
   }
 
@@ -59,32 +91,26 @@ export class UsersComponent implements OnInit {
     })
     refDialog.afterClosed().subscribe((result) => {
       if (CONFIRM === result) {
-        this.users$ = this.userService.delete(user)
-        this.users$.subscribe(users => this.table.newDataSource(users))
+        this.userService.delete(user.fsId)
       }
     })
   }
 
-  editUser(user: UserWithCredential): void {
-    const userWithCredential: UserWithCredential = {
-      name: 'Raz',
-      userId: '0',
-      id: '0',
-      email: 'naris@gmail.com',
-      firstName: 'Naris',
-      password: 'bob.12',
-      role: ROLES.indexOf(USER)
-    }
+  editUser(userWithCredential: UserWithCredential): void {
     const ref = this.dialog.open(UserFormComponent, {
       maxWidth: '500px',
       disableClose: true,
       data: {
         title: 'Nouvel utilisateur',
-        fields: userWithCredential
+        fields: userWithCredential,
+        disabledField: ['email', 'password', 'confirm']
       },
     })
-    ref.afterClosed().subscribe((result: User) => {
-      this.userService.add(result)
+    ref.afterClosed().subscribe(result => {
+      if (CANCEL != result) {
+        const {password, confirm, ...userInfo} = result
+        this.userService.update(userInfo)
+      }
     })
   }
 
