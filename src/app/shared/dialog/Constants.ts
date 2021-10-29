@@ -15,3 +15,5 @@ export const USER = "Utilisateur"
 export const ROLES = [USER, ADMIN]
 
 export const USER_COLLECTION = 'users'
+
+export const LOCALSTORAGE_ROLE_ID = 'role'

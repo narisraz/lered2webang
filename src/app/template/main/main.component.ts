@@ -3,6 +3,7 @@ import {AuthService} from "../../core/services/auth.service";
 import {Router} from "@angular/router";
 import {Observable} from "rxjs";
 import User from "../../core/interfaces/User";
+import {UserService} from "../../core/services/user.service";
 
 @Component({
   selector: 'app-main',
@@ -15,6 +16,7 @@ export class MainComponent implements OnInit {
 
   constructor(
     private auhService: AuthService,
+    private userService: UserService,
     private router: Router
   ) { }
 
