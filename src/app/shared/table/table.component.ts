@@ -1,4 +1,13 @@
-import {AfterViewInit, Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  ViewChild
+} from '@angular/core';
 import Column from "./Column";
 import {MatPaginator} from "@angular/material/paginator";
 import {MatTableDataSource} from "@angular/material/table";
@@ -39,7 +48,9 @@ export class TableComponent implements AfterViewInit, OnInit {
   displayedColumns: string[] = []
   dataSource = new MatTableDataSource<any>()
 
-  constructor() {}
+  constructor(
+    private changeDetector: ChangeDetectorRef
+  ) {}
 
   ngOnInit(): void {
     this.displayedColumns = this.columns.map(column => column.name)
@@ -59,6 +70,7 @@ export class TableComponent implements AfterViewInit, OnInit {
       }
     })
     this.dataSource.sort = this.sort
+    this.changeDetector.detectChanges()
   }
 
   getRangeLabel = function (page: number, pageSize: number, length: number) {
