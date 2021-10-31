@@ -15,17 +15,16 @@ export class MainComponent implements OnInit {
   loggedUser$: Observable<User>
 
   constructor(
-    private auhService: AuthService,
-    private userService: UserService,
+    private authService: AuthService,
     private router: Router
   ) { }
 
   ngOnInit(): void {
-    this.loggedUser$ = this.auhService.loggedUser
+    this.loggedUser$ = this.authService.loggedUser
   }
 
   signOut() {
-    this.auhService.signOut().then(() => {
+    this.authService.signOut().then(() => {
       this.router.navigate(['login'])
     })
   }

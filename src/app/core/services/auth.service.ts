@@ -5,7 +5,7 @@ import {UserService} from "./user.service";
 import {Observable} from "rxjs";
 import firebase from "firebase/compat/app";
 import User from "../interfaces/User";
-import {flatMap} from "rxjs/internal/operators";
+import {filter, flatMap, tap} from "rxjs/internal/operators";
 import {LOCALSTORAGE_ROLE_ID} from "../../shared/dialog/Constants";
 
 @Injectable({
@@ -18,8 +18,7 @@ export class AuthService {
     private userService: UserService
   ) {
     this.loggedUser.subscribe(user => {
-      if (user)
-        localStorage.setItem(LOCALSTORAGE_ROLE_ID, user.role.toString())
+      localStorage.setItem(LOCALSTORAGE_ROLE_ID, user.role.toString())
     })
   }
 
@@ -56,6 +55,7 @@ export class AuthService {
 
   get loggedUser(): Observable<User> {
     return this.afAuth.authState.pipe(
+      filter(value => value != null),
       flatMap(user => this.userService.findByAuthId(user?.uid ?? ''))
     )
   }
