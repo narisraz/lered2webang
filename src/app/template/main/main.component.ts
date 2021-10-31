@@ -29,4 +29,8 @@ export class MainComponent implements OnInit {
     })
   }
 
+  isAdmin(user: User) {
+    return this.authService.isAdmin(user)
+  }
+
 }

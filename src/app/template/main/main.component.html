@@ -23,12 +23,34 @@
 
 <mat-sidenav-container class="h-full pt-16">
 
-  <mat-sidenav #sidenav mode="side" opened="true" class="pt-16">
-    Sidenav content
+  <mat-sidenav #sidenav mode="side" opened="true" class="pt-20">
+    <button mat-menu-item>
+      <mat-icon>dialpad</mat-icon>
+      <span>Utilisateurs</span>
+    </button>
+    <div *ngIf="loggedUser$ | async as loggedUser">
+      <div *ngIf="isAdmin(loggedUser)">
+        <mat-divider></mat-divider>
+        <button mat-menu-item [routerLink]="['admin/users']">
+          <mat-icon>supervisor_account</mat-icon>
+          <span>Utilisateurs</span>
+        </button>
+        <button mat-menu-item disabled>
+          <mat-icon>cloud_queue</mat-icon>
+          <span>Plateformes</span>
+        </button>
+        <button mat-menu-item>
+          <mat-icon>account_circle</mat-icon>
+          <span>Comptes</span>
+        </button>
+      </div>
+    </div>
   </mat-sidenav>
 
-  <mat-sidenav-content class="m-4">
-    <ng-content></ng-content>
+  <mat-sidenav-content>
+    <div class="m-8">
+      <ng-content></ng-content>
+    </div>
   </mat-sidenav-content>
 
 </mat-sidenav-container>

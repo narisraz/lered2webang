@@ -8,6 +8,7 @@ import {MatSidenavModule} from "@angular/material/sidenav";
 import {MatButtonModule} from "@angular/material/button";
 import {MatMenuModule} from "@angular/material/menu";
 import {MatListModule} from "@angular/material/list";
+import {RouterModule} from "@angular/router";
 
 
 @NgModule({
@@ -22,7 +23,8 @@ import {MatListModule} from "@angular/material/list";
     MatSidenavModule,
     MatButtonModule,
     MatMenuModule,
-    MatListModule
+    MatListModule,
+    RouterModule
   ],
   exports: [
     EmptyComponent,

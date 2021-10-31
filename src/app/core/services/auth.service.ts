@@ -6,7 +6,8 @@ import {Observable} from "rxjs";
 import firebase from "firebase/compat/app";
 import User from "../interfaces/User";
 import {filter, flatMap, tap} from "rxjs/internal/operators";
-import {LOCALSTORAGE_ROLE_ID} from "../../shared/dialog/Constants";
+import {ADMIN, LOCALSTORAGE_ROLE_ID, ROLES} from "../../shared/dialog/Constants";
+import {map} from "rxjs/operators";
 
 @Injectable({
   providedIn: 'root'
@@ -53,10 +54,20 @@ export class AuthService {
     return this.afAuth.sendPasswordResetEmail(email)
   }
 
+  isLoggedIn(): Observable<boolean> {
+    return this.afAuth.authState.pipe(
+      map(value => value?.uid != undefined)
+    )
+  }
+
   get loggedUser(): Observable<User> {
     return this.afAuth.authState.pipe(
-      filter(value => value != null),
+      filter(value => value?.uid != undefined),
       flatMap(user => this.userService.findByAuthId(user?.uid ?? ''))
     )
+  }
+
+  isAdmin(user: User): boolean {
+    return user.role == ROLES.indexOf(ADMIN)
   }
 }
