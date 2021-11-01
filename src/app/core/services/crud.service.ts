@@ -1,14 +1,13 @@
 import {Injectable} from '@angular/core';
 import {AngularFirestore} from "@angular/fire/compat/firestore";
 import {Observable} from "rxjs";
-import User from "../interfaces/User";
 import FirestoreData from "../interfaces/FirestoreData";
 import * as moment from "moment";
 
 @Injectable({
   providedIn: 'root'
 })
-export class CrudService {
+export class CrudService<T> {
 
   collection: string
   now = moment().local(true).format()
@@ -17,19 +16,19 @@ export class CrudService {
     private afFs: AngularFirestore
   ) { }
 
-  get(fsId: string): Observable<User | undefined> {
+  get(fsId: string): Observable<T | undefined> {
     return this.afFs
-      .collection<User>(this.collection)
+      .collection<T>(this.collection)
       .doc(fsId)
       .valueChanges()
   }
 
-  getAll(): Observable<User[]> {
-    return this.afFs.collection<User>(this.collection).valueChanges()
+  getAll(): Observable<T[]> {
+    return this.afFs.collection<T>(this.collection).valueChanges()
   }
 
   delete(fsId: string): Promise<any> {
-    return this.afFs.collection<User>(this.collection).doc(fsId).delete()
+    return this.afFs.collection<T>(this.collection).doc(fsId).delete()
   }
 
   add<T extends FirestoreData>(value: T): Promise<any> {

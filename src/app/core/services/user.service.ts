@@ -10,7 +10,7 @@ import {map} from "rxjs/operators";
 @Injectable({
   providedIn: 'root'
 })
-export class UserService extends CrudService{
+export class UserService extends CrudService<User> {
 
   constructor(
     private firestore: AngularFirestore

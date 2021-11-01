@@ -31,11 +31,11 @@
     <div *ngIf="loggedUser$ | async as loggedUser">
       <div *ngIf="isAdmin(loggedUser)">
         <mat-divider></mat-divider>
-        <button mat-menu-item [routerLink]="['admin/users']">
+        <button mat-menu-item [routerLink]="['/admin/users']">
           <mat-icon>supervisor_account</mat-icon>
           <span>Utilisateurs</span>
         </button>
-        <button mat-menu-item disabled>
+        <button mat-menu-item [routerLink]="['/admin/platforms']">
           <mat-icon>cloud_queue</mat-icon>
           <span>Plateformes</span>
         </button>

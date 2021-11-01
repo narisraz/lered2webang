@@ -9,12 +9,16 @@ import {UserFormComponent} from './users/user-form/user-form.component';
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import { PlatformsComponent } from './platforms/platforms.component';
+import { PlatformFormComponent } from './platforms/platform-form/platform-form.component';
 
 
 @NgModule({
   declarations: [
     UsersComponent,
     UserFormComponent,
+    PlatformsComponent,
+    PlatformFormComponent,
   ],
   imports: [
     CommonModule,
