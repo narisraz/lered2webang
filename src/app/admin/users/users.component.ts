@@ -101,7 +101,7 @@ export class UsersComponent implements OnInit {
       maxWidth: '500px',
       disableClose: true,
       data: {
-        title: 'Nouvel utilisateur',
+        title: 'Editer utilisateur',
         fields: userWithCredential,
         disabledField: ['email', 'password', 'confirm']
       },
