@@ -1,25 +1,27 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {Observable} from "rxjs";
-import {CANCEL, CONFIRM} from "../../shared/dialog/Constants";
+import Compte from "../../core/interfaces/Compte";
 import Column from "../../shared/table/Column";
 import {TableComponent} from "../../shared/table/table.component";
 import {MatDialog} from "@angular/material/dialog";
-import Platform from "../../core/interfaces/Platform";
-import {PlatformService} from "../../core/services/platform.service";
-import {PlatformFormComponent} from "./platform-form/platform-form.component";
+import {CompteService} from "../../core/services/compte.service";
+import {CANCEL, CONFIRM} from "../../shared/dialog/Constants";
+import {CompteFormComponent} from "./compte-form/compte-form.component";
+import EnhancedCompte from "../../core/interfaces/EnhancedCompte";
 import {ConfirmComponent} from "../../shared/dialog/confirm/confirm.component";
 
 @Component({
-  selector: 'app-platforms',
-  templateUrl: './platforms.component.html',
-  styleUrls: ['./platforms.component.scss']
+  selector: 'app-comptes',
+  templateUrl: './comptes.component.html',
+  styleUrls: ['./comptes.component.scss']
 })
-export class PlatformsComponent implements OnInit {
+export class ComptesComponent implements OnInit {
 
-  platforms$: Observable<Platform[]>
+  enhancedComptes$: Observable<EnhancedCompte[]>;
   tableColumns: Column[] = [
+    { name: 'platformLabel', label: 'Plateforme' },
     { name: 'name', label: 'Nom' },
-    { name: 'url', label: 'URL' },
+    { name: 'firstName', label: 'Prénom' },
     { name: 'actions', label: 'Actions' },
   ]
 
@@ -28,45 +30,45 @@ export class PlatformsComponent implements OnInit {
 
   constructor(
     private dialog: MatDialog,
-    private platformService: PlatformService
-  ) {}
+    private compteService: CompteService,
+  ) { }
 
   ngOnInit(): void {
-    this.platforms$ = this.platformService.getAll()
+    this.enhancedComptes$ = this.compteService.getAllEnhancedCompte()
   }
 
-  addPlatform() {
-    const ref = this.dialog.open(PlatformFormComponent, {
+  addCompte() {
+    const ref = this.dialog.open(CompteFormComponent, {
       maxWidth: '500px',
       disableClose: true,
       data: {
-        title: 'Nouvelle platforme'
+        title: 'Nouveau compte'
       },
     })
     ref.afterClosed().subscribe(result => {
       if (CANCEL != result) {
-        this.platformService.add(result)
+        this.compteService.add(result)
       }
     })
   }
 
-  editPlatform(platform: Platform) {
-    const ref = this.dialog.open(PlatformFormComponent, {
+  editCompte(compte: Compte) {
+    const ref = this.dialog.open(CompteFormComponent, {
       maxWidth: '500px',
       disableClose: true,
       data: {
-        title: 'Editer platforme',
-        fields: platform,
+        title: 'Editer compte',
+        fields: compte,
       },
     })
     ref.afterClosed().subscribe(result => {
       if (CANCEL != result) {
-        this.platformService.update(result)
+        this.compteService.update(result)
       }
     })
   }
 
-  deletePlatform(platform: Platform) {
+  deleteCompte(compte: Compte) {
     const refDialog = this.dialog.open(ConfirmComponent, {
       data: {
         title: 'Supprimer l\'élément',
@@ -75,9 +77,8 @@ export class PlatformsComponent implements OnInit {
     })
     refDialog.afterClosed().subscribe((result) => {
       if (CONFIRM === result) {
-        this.platformService.delete(platform.fsId)
+        this.compteService.delete(compte.fsId)
       }
     })
   }
-
 }

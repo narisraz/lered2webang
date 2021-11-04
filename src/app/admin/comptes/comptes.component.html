@@ -1,0 +1,11 @@
+<app-main>
+  <app-table
+    #table
+    title="Liste des comptes"
+    [data$]="enhancedComptes$"
+    [columns]="tableColumns"
+    (addElement)="addCompte()"
+    (editElement)="editCompte($event)"
+    (deleteElement)="deleteCompte($event)"
+  ></app-table>
+</app-main>

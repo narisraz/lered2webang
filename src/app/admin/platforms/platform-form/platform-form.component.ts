@@ -1,11 +1,8 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {AbstractControlOptions, FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {MAT_DIALOG_DATA} from "@angular/material/dialog";
 import DialogData from "../../../shared/dialog/DialogData";
-import {UserWithCredential} from "../../UserWithCredential";
 import Platform from "../../../core/interfaces/Platform";
-import * as moment from "moment/moment";
-import {MustMatch} from "../../../shared/form/MustMatch";
 
 @Component({
   selector: 'app-platform-form',

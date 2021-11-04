@@ -2,7 +2,6 @@ import {Injectable} from '@angular/core';
 import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree} from '@angular/router';
 import {Observable} from 'rxjs';
 import {LOCALSTORAGE_ROLE_ID} from "../../shared/dialog/Constants";
-import {AngularFireAuth} from "@angular/fire/compat/auth";
 import {AuthService} from "../services/auth.service";
 import {map} from "rxjs/operators";
 

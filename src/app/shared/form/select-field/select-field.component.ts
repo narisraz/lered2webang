@@ -10,7 +10,7 @@ import SelectData from "./SelectData";
 export class SelectFieldComponent extends FormFieldComponent implements OnInit {
 
   @Input()
-  values: SelectData[]
+  values: SelectData[] | null
 
   ngOnInit(): void {
   }

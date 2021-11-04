@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { PlatformFormComponent } from './platform-form.component';
+import {PlatformFormComponent} from './platform-form.component';
 
 describe('PlatformFormComponent', () => {
   let component: PlatformFormComponent;

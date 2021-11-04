@@ -5,7 +5,7 @@ import {UserService} from "./user.service";
 import {Observable} from "rxjs";
 import firebase from "firebase/compat/app";
 import User from "../interfaces/User";
-import {filter, flatMap, tap} from "rxjs/internal/operators";
+import {filter, flatMap} from "rxjs/internal/operators";
 import {ADMIN, LOCALSTORAGE_ROLE_ID, ROLES} from "../../shared/dialog/Constants";
 import {map} from "rxjs/operators";
 

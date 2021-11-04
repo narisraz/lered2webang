@@ -1,0 +1,5 @@
+<app-form [formGroup]="formGroup">
+  <app-select-field [required]="true" [formGroup]="formGroup" label="Platforme" name="platformId" [values]="platforms | async"></app-select-field>
+  <app-text-field [required]="true" [formGroup]="formGroup" label="Nom" name="name"></app-text-field>
+  <app-text-field [required]="true" [formGroup]="formGroup" label="Prénom" name="firstName"></app-text-field>
+</app-form>

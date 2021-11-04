@@ -9,8 +9,10 @@ import {UserFormComponent} from './users/user-form/user-form.component';
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import { PlatformsComponent } from './platforms/platforms.component';
-import { PlatformFormComponent } from './platforms/platform-form/platform-form.component';
+import {PlatformsComponent} from './platforms/platforms.component';
+import {PlatformFormComponent} from './platforms/platform-form/platform-form.component';
+import {ComptesComponent} from './comptes/comptes.component';
+import {CompteFormComponent} from './comptes/compte-form/compte-form.component';
 
 
 @NgModule({
@@ -19,6 +21,8 @@ import { PlatformFormComponent } from './platforms/platform-form/platform-form.c
     UserFormComponent,
     PlatformsComponent,
     PlatformFormComponent,
+    ComptesComponent,
+    CompteFormComponent,
   ],
   imports: [
     CommonModule,
