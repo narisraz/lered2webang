@@ -1,14 +1,14 @@
 {
   "targets": {
-    "redaction-8c584": {
+    "lered2web": {
       "hosting": {
         "lered2web": [
-          "redaction-8c584"
+          "lered2web"
         ]
       }
     }
   },
   "projects": {
-    "default": "redaction-8c584"
+    "default": "lered2web"
   }
 }
