@@ -13,6 +13,8 @@ import {PlatformsComponent} from './platforms/platforms.component';
 import {PlatformFormComponent} from './platforms/platform-form/platform-form.component';
 import {ComptesComponent} from './comptes/comptes.component';
 import {CompteFormComponent} from './comptes/compte-form/compte-form.component';
+import {StatutesComponent} from './statutes/statutes.component';
+import {StatusFormComponent} from './statutes/status-form/status-form.component';
 
 
 @NgModule({
@@ -23,6 +25,8 @@ import {CompteFormComponent} from './comptes/compte-form/compte-form.component';
     PlatformFormComponent,
     ComptesComponent,
     CompteFormComponent,
+    StatutesComponent,
+    StatusFormComponent,
   ],
   imports: [
     CommonModule,

@@ -17,5 +17,6 @@ export const ROLES = [USER, ADMIN]
 export const USER_COLLECTION = 'users'
 export const PLATFORM_COLLECTION = 'platforms'
 export const COMPTE_COLLECTION = 'comptes'
+export const STATUS_COLLECTION = 'statutes'
 
 export const LOCALSTORAGE_ROLE_ID = 'role'

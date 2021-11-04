@@ -1,0 +1,11 @@
+<app-main>
+  <app-table
+    #table
+    title="Liste des statuts"
+    [data$]="statutes$"
+    [columns]="tableColumns"
+    (addElement)="addStatus()"
+    (editElement)="editStatus($event)"
+    (deleteElement)="deleteStatus($event)"
+  ></app-table>
+</app-main>
