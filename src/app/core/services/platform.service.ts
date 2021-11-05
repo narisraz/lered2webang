@@ -3,6 +3,9 @@ import {CrudService} from "./crud.service";
 import Platform from "../interfaces/Platform";
 import {AngularFirestore} from "@angular/fire/compat/firestore";
 import {PLATFORM_COLLECTION} from "../../shared/dialog/Constants";
+import {Observable} from "rxjs";
+import SelectData from "../../shared/form/select-field/SelectData";
+import {map} from "rxjs/operators";
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +17,17 @@ export class PlatformService extends CrudService<Platform> {
   ) {
     super(firestore)
     super.collection = PLATFORM_COLLECTION
+  }
+
+  toSelectData(): Observable<SelectData[]> {
+    return super.getAll().pipe(
+      map(platforms => platforms.map((platform): SelectData => {
+        return {
+          code: platform.fsId,
+          label: platform.name
+        }
+      }))
+    )
   }
 
 }

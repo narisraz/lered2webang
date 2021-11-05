@@ -7,6 +7,7 @@ import {combineLatest, Observable} from "rxjs";
 import User from "../interfaces/User";
 import {map} from "rxjs/operators";
 import {UserService} from "./user.service";
+import SelectData from "../../shared/form/select-field/SelectData";
 
 @Injectable({
   providedIn: 'root'
@@ -33,6 +34,17 @@ export class StatusService extends CrudService<Status>{
         return statutes
       }),
       map(statutes => statutes.sort((a, b) => a.userRole - b.userRole)),
+    )
+  }
+
+  toSelectData(): Observable<SelectData[]> {
+    return super.getAll().pipe(
+      map(statutes => statutes.map((statute): SelectData => {
+        return {
+          code: statute.fsId,
+          label: statute.label
+        }
+      }))
     )
   }
 }

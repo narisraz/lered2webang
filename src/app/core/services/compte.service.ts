@@ -7,6 +7,7 @@ import {combineLatest, Observable} from "rxjs";
 import {map} from "rxjs/operators";
 import EnhancedCompte from "../interfaces/EnhancedCompte";
 import {PlatformService} from "./platform.service";
+import SelectData from "../../shared/form/select-field/SelectData";
 
 @Injectable({
   providedIn: 'root'
@@ -34,6 +35,17 @@ export class CompteService extends CrudService<Compte> {
           }
         })
       })
+    )
+  }
+
+  toSelectData(): Observable<SelectData[]> {
+    return super.getAll().pipe(
+      map(comptes => comptes.map((compte): SelectData => {
+        return {
+          code: compte.fsId,
+          label: compte.name
+        }
+      }))
     )
   }
 

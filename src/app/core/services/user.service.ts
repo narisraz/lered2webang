@@ -5,6 +5,7 @@ import {Observable} from "rxjs";
 import User from "../interfaces/User";
 import {ADMIN, ROLES, USER_COLLECTION} from "../../shared/dialog/Constants";
 import {map} from "rxjs/operators";
+import SelectData from "../../shared/form/select-field/SelectData";
 
 
 @Injectable({
@@ -36,5 +37,16 @@ export class UserService extends CrudService<User> {
 
   isAdmin(user: User): boolean {
     return user.role == ROLES.indexOf(ADMIN)
+  }
+
+  toSelectData(): Observable<SelectData[]> {
+    return super.getAll().pipe(
+      map(users => users.map((user): SelectData => {
+        return {
+          code: user.fsId,
+          label: user.firstName
+        }
+      }))
+    )
   }
 }

@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {CrudService} from "./crud.service";
 import Task from "../interfaces/Task";
 import {AngularFirestore} from "@angular/fire/compat/firestore";
-import {USER_COLLECTION} from "../../shared/dialog/Constants";
+import {TASK_COLLECTION} from "../../shared/dialog/Constants";
 import {combineLatest, Observable} from "rxjs";
 import EnhancedTask from "../interfaces/EnhancedTask";
 import {map} from "rxjs/operators";
@@ -24,7 +24,7 @@ export class TaskService extends CrudService<Task>{
     private userService: UserService
   ) {
     super(firestore)
-    super.collection = USER_COLLECTION
+    super.collection = TASK_COLLECTION
   }
 
   getAllEnhancedTasks(): Observable<EnhancedTask[]> {

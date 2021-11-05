@@ -10,6 +10,9 @@ import {TableComponent} from "../../shared/table/table.component";
 import User from "../../core/interfaces/User";
 import {AuthService} from "../../core/services/auth.service";
 import {UserService} from "../../core/services/user.service";
+import {CANCEL} from "../../shared/dialog/Constants";
+import {MatDialog} from "@angular/material/dialog";
+import {TaskFormComponent} from "../task-form/task-form.component";
 
 @Component({
   selector: 'app-my-tasks',
@@ -45,7 +48,8 @@ export class MyTasksComponent implements OnInit {
     private taskService: TaskService,
     private statusService: StatusService,
     private authService: AuthService,
-    private userService: UserService
+    private userService: UserService,
+    private dialog: MatDialog,
   ) { }
 
   ngOnInit(): void {
@@ -68,7 +72,18 @@ export class MyTasksComponent implements OnInit {
   }
 
   addTask() {
-
+    const ref = this.dialog.open(TaskFormComponent, {
+      minWidth: 1000,
+      disableClose: true,
+      data: {
+        title: 'Nouvelle tâche'
+      },
+    })
+    ref.afterClosed().subscribe(result => {
+      if (CANCEL != result) {
+        this.taskService.add(result)
+      }
+    })
   }
 
   editTask(enhancedTask: EnhancedTask) {
