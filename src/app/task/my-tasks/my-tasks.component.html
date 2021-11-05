@@ -1,0 +1,29 @@
+<app-main>
+  <h2>Mes tâches</h2>
+  <button mat-raised-button (click)="addTask()">
+    <mat-icon>add</mat-icon>
+    Nouveau
+  </button>
+  <mat-form-field class="w-1/2 ml-4 mb-4">
+    <input matInput type="text" placeholder="Rechercher" [(ngModel)]="searchInput" />
+  </mat-form-field>
+
+  <div *ngIf="(statutes$ | async) as statutes">
+    <mat-card
+      class="mb-4"
+      *ngFor="let status of statutes"
+    >
+      <app-table
+        #table
+        [withSearchForm]="false"
+        [withAddButton]="false"
+        [filter]="searchInput"
+        [title]="status.label"
+        [data$]="tasksByStatus(status.fsId)"
+        [columns]="tableColumns"
+        (editElement)="editTask($event)"
+        (deleteElement)="deleteTask($event)"
+      ></app-table>
+    </mat-card>
+  </div>
+</app-main>

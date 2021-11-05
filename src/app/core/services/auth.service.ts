@@ -6,7 +6,7 @@ import {Observable} from "rxjs";
 import firebase from "firebase/compat/app";
 import User from "../interfaces/User";
 import {filter, flatMap} from "rxjs/internal/operators";
-import {ADMIN, LOCALSTORAGE_ROLE_ID, ROLES} from "../../shared/dialog/Constants";
+import {LOCALSTORAGE_ROLE_ID} from "../../shared/dialog/Constants";
 import {map} from "rxjs/operators";
 
 @Injectable({
@@ -65,9 +65,5 @@ export class AuthService {
       filter(value => value?.uid != undefined),
       flatMap(user => this.userService.findByAuthId(user?.uid ?? ''))
     )
-  }
-
-  isAdmin(user: User): boolean {
-    return user.role == ROLES.indexOf(ADMIN)
   }
 }

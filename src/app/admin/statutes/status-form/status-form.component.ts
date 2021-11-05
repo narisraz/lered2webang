@@ -3,6 +3,8 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {MAT_DIALOG_DATA} from "@angular/material/dialog";
 import DialogData from "../../../shared/dialog/DialogData";
 import Status from "../../../core/interfaces/Status";
+import {ROLES} from "../../../shared/dialog/Constants";
+import SelectData from "../../../shared/form/select-field/SelectData";
 
 @Component({
   selector: 'app-status-form',
@@ -11,6 +13,12 @@ import Status from "../../../core/interfaces/Status";
 })
 export class StatusFormComponent implements OnInit {
 
+  roles = ROLES.map((role, index): SelectData => {
+    return {
+      code: index,
+      label: role
+    }
+  })
   formGroup: FormGroup
 
   constructor(
@@ -27,6 +35,7 @@ export class StatusFormComponent implements OnInit {
       insertDate: [fields?.insertDate],
       updateDate: [fields?.updateDate],
       label: [fields?.label, [Validators.required]],
+      userRole: [fields?.userRole, [Validators.required]],
     })
 
     disabledField?.forEach(field => this.f[field].disable())

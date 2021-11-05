@@ -5,9 +5,11 @@ import Column from "../../shared/table/Column";
 import {TableComponent} from "../../shared/table/table.component";
 import {MatDialog} from "@angular/material/dialog";
 import {StatusService} from "../../core/services/status.service";
-import {CANCEL, CONFIRM} from "../../shared/dialog/Constants";
+import {CANCEL, CONFIRM, ROLES} from "../../shared/dialog/Constants";
 import {StatusFormComponent} from "./status-form/status-form.component";
 import {ConfirmComponent} from "../../shared/dialog/confirm/confirm.component";
+import {map} from "rxjs/operators";
+import EnhancedStatus from "../../core/interfaces/EnhancedStatus";
 
 @Component({
   selector: 'app-statutes',
@@ -16,9 +18,15 @@ import {ConfirmComponent} from "../../shared/dialog/confirm/confirm.component";
 })
 export class StatutesComponent implements OnInit {
 
-  statutes$: Observable<Status[]>;
+  statutes$: Observable<EnhancedStatus[]>;
   tableColumns: Column[] = [
     { name: 'label', label: 'Libellé' },
+    { name: 'roleLabel', label: 'Visible par',
+      sort: {
+        id: 'roleLabel',
+        start: 'desc',
+        disableClear: false
+      } },
     { name: 'actions', label: 'Actions' },
   ]
 
@@ -31,7 +39,15 @@ export class StatutesComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.statutes$ = this.statusService.getAll()
+    this.statutes$ = this.statusService.getAll().pipe(
+      map(statutes => statutes.map(status => {
+        const roleLabel = ROLES[status.userRole]
+        return {
+          ...status,
+          roleLabel
+        }
+      }))
+    )
   }
 
   addStatus() {

@@ -3,7 +3,7 @@ import {AngularFirestore} from "@angular/fire/compat/firestore";
 import {CrudService} from "./crud.service";
 import {Observable} from "rxjs";
 import User from "../interfaces/User";
-import {USER_COLLECTION} from "../../shared/dialog/Constants";
+import {ADMIN, ROLES, USER_COLLECTION} from "../../shared/dialog/Constants";
 import {map} from "rxjs/operators";
 
 
@@ -32,5 +32,9 @@ export class UserService extends CrudService<User> {
     return this.firestore
       .collection<User>(USER_COLLECTION, ref => ref.where('email', '==', email))
       .valueChanges()
+  }
+
+  isAdmin(user: User): boolean {
+    return user.role == ROLES.indexOf(ADMIN)
   }
 }

@@ -29,6 +29,15 @@ export class TableComponent implements AfterViewInit, OnInit {
   @Input()
   data$: Observable<any>
 
+  @Input()
+  withSearchForm: boolean = true
+
+  @Input()
+  withAddButton: boolean = true
+
+  @Input()
+  filter: string
+
   @Output()
   editElement: EventEmitter<any> = new EventEmitter<any>()
 
@@ -45,7 +54,7 @@ export class TableComponent implements AfterViewInit, OnInit {
   sort: MatSort;
 
   loading = true
-  displayedColumns: string[] = []
+  displayedColumns?: string[] = []
   dataSource = new MatTableDataSource<any>()
 
   constructor(
@@ -87,6 +96,6 @@ export class TableComponent implements AfterViewInit, OnInit {
   };
 
   doFilter = (value: string) => {
-    this.dataSource.filter = value.trim()
+    this.dataSource.filter = this.filter ?? value.trim()
   }
 }

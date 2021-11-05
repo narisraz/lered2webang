@@ -1,3 +1,4 @@
 <app-form [formGroup]="formGroup">
   <app-text-field [required]="true" [formGroup]="formGroup" label="Libellé" name="label"></app-text-field>
+  <app-select-field [required]="true" [formGroup]="formGroup" label="Visible par" name="userRole" [values]="roles"></app-select-field>
 </app-form>

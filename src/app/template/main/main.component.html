@@ -24,9 +24,13 @@
 <mat-sidenav-container class="h-full pt-16">
 
   <mat-sidenav #sidenav mode="side" opened="true" class="pt-20">
-    <button mat-menu-item>
+    <button mat-menu-item [routerLink]="['/task/list']">
       <mat-icon>dialpad</mat-icon>
-      <span>Utilisateurs</span>
+      <span>Mes tâches</span>
+    </button>
+    <button mat-menu-item [routerLink]="['/chat']">
+      <mat-icon>chat</mat-icon>
+      <span>Discussion</span>
     </button>
     <div *ngIf="loggedUser$ | async as loggedUser">
       <div *ngIf="isAdmin(loggedUser)">

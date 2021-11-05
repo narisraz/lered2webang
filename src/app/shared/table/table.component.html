@@ -1,9 +1,9 @@
 <h2>{{title}}</h2>
-<button mat-raised-button (click)="addElement.emit()">
+<button mat-raised-button (click)="addElement.emit()" *ngIf="withAddButton">
   <mat-icon>add</mat-icon>
   Nouveau
 </button>
-<mat-form-field class="w-1/2 ml-4">
+<mat-form-field class="w-1/2 ml-4" *ngIf="withSearchForm">
   <input #searchInput matInput type="text" placeholder="Rechercher" (keyup)="doFilter(searchInput.value)" />
 </mat-form-field>
 
