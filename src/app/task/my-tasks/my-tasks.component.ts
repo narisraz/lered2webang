@@ -1,6 +1,6 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {StatusService} from "../../core/services/status.service";
-import {Observable, of} from "rxjs";
+import {Observable} from "rxjs";
 import Status from "../../core/interfaces/Status";
 import EnhancedTask from "../../core/interfaces/EnhancedTask";
 import {TaskService} from "../../core/services/task.service";
@@ -10,9 +10,8 @@ import {TableComponent} from "../../shared/table/table.component";
 import User from "../../core/interfaces/User";
 import {AuthService} from "../../core/services/auth.service";
 import {UserService} from "../../core/services/user.service";
-import {CANCEL, CONFIRM} from "../../shared/dialog/Constants";
+import {CONFIRM} from "../../shared/dialog/Constants";
 import {MatDialog} from "@angular/material/dialog";
-import {TaskFormComponent} from "../task-form/task-form.component";
 import {Router} from "@angular/router";
 import {ConfirmComponent} from "../../shared/dialog/confirm/confirm.component";
 

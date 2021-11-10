@@ -1,14 +1,13 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import Task from "../../core/interfaces/Task";
-import {combineLatest, Observable, of} from "rxjs";
+import {Observable, of} from "rxjs";
 import {StatusService} from "../../core/services/status.service";
 import SelectData from "../../shared/form/select-field/SelectData";
 import {PlatformService} from "../../core/services/platform.service";
 import {CompteService} from "../../core/services/compte.service";
 import {UserService} from "../../core/services/user.service";
 import {TaskService} from "../../core/services/task.service";
-import {map} from "rxjs/operators";
 import Platform from "../../core/interfaces/Platform";
 import User from "../../core/interfaces/User";
 import Compte from "../../core/interfaces/Compte";
@@ -84,6 +83,8 @@ export class TaskFormComponent implements OnInit {
 
     this.activatedRoute.params.subscribe(params => {
       const taskId = params['taskId']
+      if (!taskId)
+        return
       const task$: Observable<Task | undefined> = this.taskService.get(taskId)
       task$.subscribe(task => {
         this.updateCompte(task?.platformId ?? '')
@@ -109,7 +110,6 @@ export class TaskFormComponent implements OnInit {
     this.formGroup.markAllAsTouched()
     if (this.formGroup.valid) {
       const value = this.formGroup.getRawValue() as Task
-      console.log(value)
       const promise = this.addOrUpdate(value)
       promise.then(() => {
         this.router.navigate(['/task/list']).then(() => {

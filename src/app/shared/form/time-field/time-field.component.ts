@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormFieldComponent} from "../form-field/form-field.component";
 
 @Component({

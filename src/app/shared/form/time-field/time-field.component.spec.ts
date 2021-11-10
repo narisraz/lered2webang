@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { TimeFieldComponent } from './time-field.component';
+import {TimeFieldComponent} from './time-field.component';
 
 describe('TimeFieldComponent', () => {
   let component: TimeFieldComponent;

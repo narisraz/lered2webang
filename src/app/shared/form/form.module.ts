@@ -14,9 +14,9 @@ import {DateFieldComponent} from './date-field/date-field.component';
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import {MAT_MOMENT_DATE_FORMATS, MatMomentDateModule} from "@angular/material-moment-adapter";
 import {MAT_DATE_FORMATS, MAT_DATE_LOCALE, MatNativeDateModule} from "@angular/material/core";
-import { RichedTextFieldComponent } from './riched-text-field/riched-text-field.component';
+import {RichedTextFieldComponent} from './riched-text-field/riched-text-field.component';
 import {QuillModule} from "ngx-quill";
-import { TimeFieldComponent } from './time-field/time-field.component';
+import {TimeFieldComponent} from './time-field/time-field.component';
 import {NgxMaterialTimepickerModule} from "ngx-material-timepicker";
 
 
