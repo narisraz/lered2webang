@@ -7,7 +7,7 @@
     </button>
   </span>
   <mat-form-field class="w-1/2 mb-4">
-    <input matInput type="text" placeholder="Rechercher" [(ngModel)]="searchInput" />
+    <input #searchInput matInput type="text" placeholder="Rechercher" (keyup)="filter(searchInput.value)" />
   </mat-form-field>
 
   <div *ngIf="(statutes$ | async) as statutes">
@@ -19,7 +19,6 @@
         #table
         [withSearchForm]="false"
         [withAddButton]="false"
-        [filter]="searchInput"
         [title]="status.label"
         [data$]="tasksByStatus(status.fsId)"
         [columns]="tableColumns"

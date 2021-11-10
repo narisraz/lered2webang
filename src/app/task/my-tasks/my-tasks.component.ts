@@ -24,7 +24,6 @@ export class MyTasksComponent implements OnInit {
 
   loggedUser$: Observable<User>
   isAdmin: boolean = false
-  searchInput: string
   statutes$: Observable<Status[]>
   enhancedTask$: Observable<EnhancedTask[]>
   adminTableColumns: Column[] = [
@@ -91,5 +90,9 @@ export class MyTasksComponent implements OnInit {
         this.taskService.delete(enhancedTask.fsId)
       }
     })
+  }
+
+  filter(value: string) {
+    this.table.doFilter(value)
   }
 }

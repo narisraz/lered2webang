@@ -35,9 +35,6 @@ export class TableComponent implements AfterViewInit, OnInit {
   @Input()
   withAddButton: boolean = true
 
-  @Input()
-  filter: string
-
   @Output()
   editElement: EventEmitter<any> = new EventEmitter<any>()
 
@@ -96,6 +93,6 @@ export class TableComponent implements AfterViewInit, OnInit {
   };
 
   doFilter = (value: string) => {
-    this.dataSource.filter = this.filter ?? value.trim()
+    this.dataSource.filter = value.trim()
   }
 }
