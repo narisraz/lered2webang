@@ -39,8 +39,8 @@ export class UserService extends CrudService<User> {
     return user.role == ROLES.indexOf(ADMIN)
   }
 
-  toSelectData(): Observable<SelectData[]> {
-    return super.getAll().pipe(
+  toSelectData(obs: Observable<User[]>): Observable<SelectData[]> {
+    return obs.pipe(
       map(users => users.map((user): SelectData => {
         return {
           code: user.fsId,

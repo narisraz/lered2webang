@@ -21,3 +21,7 @@ export const STATUS_COLLECTION = 'statutes'
 export const TASK_COLLECTION = 'tasks'
 
 export const LOCALSTORAGE_ROLE_ID = 'role'
+
+export const ROUTE_TYPE_ADD = "ADD"
+export const ROUTE_TYPE_UPDATE = "UPDATE"
+export const ROUTE_TYPE = [ROUTE_TYPE_ADD, ROUTE_TYPE_UPDATE]

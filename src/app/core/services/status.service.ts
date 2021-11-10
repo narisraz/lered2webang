@@ -37,8 +37,8 @@ export class StatusService extends CrudService<Status>{
     )
   }
 
-  toSelectData(): Observable<SelectData[]> {
-    return super.getAll().pipe(
+  toSelectData(obs: Observable<Status[]>): Observable<SelectData[]> {
+    return obs.pipe(
       map(statutes => statutes.map((statute): SelectData => {
         return {
           code: statute.fsId,

@@ -1,0 +1,11 @@
+<div [formGroup]="formGroup">
+  <mat-form-field class="w-full">
+    <mat-label>{{label}}</mat-label>
+    <input matInput [format]=24 [ngxTimepicker]="picker" [formControlName]="name" [required]="required">
+    <ngx-material-timepicker #picker></ngx-material-timepicker>
+    <mat-error *ngIf="f[name].hasError('required')">
+      {{errors.required}}
+    </mat-error>
+  </mat-form-field>
+</div>
+

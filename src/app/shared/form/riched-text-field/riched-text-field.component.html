@@ -1,0 +1,9 @@
+<div class="mb-4" [formGroup]="formGroup">
+  <div class="mb-1">
+    <mat-label>{{label}} <span *ngIf="required">*</span></mat-label>
+  </div>
+  <quill-editor
+    [formControlName]="name"
+    [placeholder]="placeholder"
+  ></quill-editor>
+</div>

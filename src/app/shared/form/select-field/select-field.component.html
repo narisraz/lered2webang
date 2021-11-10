@@ -1,7 +1,12 @@
 <div [formGroup]="formGroup">
   <mat-form-field class="w-full">
     <mat-label>{{label}}</mat-label>
-    <mat-select [placeholder]="label" [formControlName]="name" [required]="required">
+    <mat-select
+      [placeholder]="label"
+      [formControlName]="name"
+      [required]="required"
+      (valueChange)="onChange.emit($event)"
+    >
       <mat-option *ngFor="let value of values" [value]="value.code">
         {{value.label}}
       </mat-option>

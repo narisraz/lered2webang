@@ -1,14 +1,21 @@
-import {Component, Inject, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {MAT_DIALOG_DATA} from "@angular/material/dialog";
-import DialogData from "../../shared/dialog/DialogData";
 import Task from "../../core/interfaces/Task";
-import {Observable} from "rxjs";
+import {combineLatest, Observable, of} from "rxjs";
 import {StatusService} from "../../core/services/status.service";
 import SelectData from "../../shared/form/select-field/SelectData";
 import {PlatformService} from "../../core/services/platform.service";
 import {CompteService} from "../../core/services/compte.service";
 import {UserService} from "../../core/services/user.service";
+import {TaskService} from "../../core/services/task.service";
+import {map} from "rxjs/operators";
+import Platform from "../../core/interfaces/Platform";
+import User from "../../core/interfaces/User";
+import Compte from "../../core/interfaces/Compte";
+import Status from "../../core/interfaces/Status";
+import {ActivatedRoute, Router} from "@angular/router";
+import {MatSnackBar} from "@angular/material/snack-bar";
+import {ROUTE_TYPE, ROUTE_TYPE_ADD} from "../../shared/dialog/Constants";
 
 @Component({
   selector: 'app-task-form',
@@ -17,45 +24,117 @@ import {UserService} from "../../core/services/user.service";
 })
 export class TaskFormComponent implements OnInit {
 
+  title = 'Nouvelle tâche'
+  routeType = ROUTE_TYPE.indexOf(ROUTE_TYPE_ADD)
+
   formGroup: FormGroup
-  statutes$: Observable<SelectData[]>;
-  platforms$: Observable<SelectData[]>
-  comptes$: Observable<SelectData[]>
-  users$: Observable<SelectData[]>
+  statutesSelectData$: Observable<SelectData[]>;
+  platformsSelectData$: Observable<SelectData[]>
+  comptesSelectData$: Observable<SelectData[]>
+  usersSelectData$: Observable<SelectData[]>
+
+  users$: Observable<User[]>
+  statutes$: Observable<Status[]>
+  platforms$: Observable<Platform[]>
+  comptes$: Observable<Compte[]>
 
   constructor(
     private formBuilder: FormBuilder,
-    @Inject(MAT_DIALOG_DATA) public dialogData: DialogData<Task>,
     private statusService: StatusService,
     private platformService: PlatformService,
     private compteService: CompteService,
-    private userService: UserService
+    private userService: UserService,
+    private taskService: TaskService,
+    private activatedRoute: ActivatedRoute,
+    private router: Router,
+    private snackBar: MatSnackBar
   ) { }
 
   ngOnInit(): void {
-    const fields = this.dialogData.fields
-    const disabledField: string[] | undefined = this.dialogData.disabledField
-
-    this.statutes$ = this.statusService.toSelectData()
-    this.platforms$ = this.platformService.toSelectData()
-    this.comptes$ = this.compteService.toSelectData()
-    this.users$ = this.userService.toSelectData()
-
-    this.formGroup = this.formBuilder.group({
-      fsId: [fields?.fsId],
-      insertDate: [fields?.insertDate],
-      updateDate: [fields?.updateDate],
-      title: [fields?.title, [Validators.required]],
-      description: [fields?.description, [Validators.required]],
-      statusId: [fields?.statusId, [Validators.required]],
-      userId: [fields?.userId, [Validators.required]],
-      platformId: [fields?.platformId, [Validators.required]],
-      compteId: [fields?.compteId, [Validators.required]],
+    this.activatedRoute.data.subscribe(data => {
+      this.title = data['title']
+      this.routeType = data['type']
     })
 
-    disabledField?.forEach(field => this.f[field].disable())
+    this.users$ = this.userService.getAll()
+    this.statutes$ = this.statusService.getAll()
+    this.platforms$ = this.platformService.getAll()
+    this.comptes$ = this.compteService.getAll()
+
+    this.statutesSelectData$ = this.statusService.toSelectData(this.statutes$)
+    this.platformsSelectData$ = this.platformService.toSelectData(this.platforms$)
+    this.comptesSelectData$ = this.compteService.toSelectData(of())
+    this.usersSelectData$ = this.userService.toSelectData(this.users$)
+
+    const data = {
+      fsId: [],
+      insertDate: [],
+      updateDate: [],
+      title: ['', [Validators.required]],
+      description: ['', [Validators.required]],
+      statusId: ['', [Validators.required]],
+      userId: [undefined, [Validators.required]],
+      platformId: [undefined, [Validators.required]],
+      compteId: [undefined, [Validators.required]],
+      dueDate: [undefined, [Validators.required]],
+      dueHour: [undefined, [Validators.required]],
+      earning: [],
+    }
+    this.formGroup = this.formBuilder.group(data)
+
+    this.activatedRoute.params.subscribe(params => {
+      const taskId = params['taskId']
+      const task$: Observable<Task | undefined> = this.taskService.get(taskId)
+      task$.subscribe(task => {
+        this.updateCompte(task?.platformId ?? '')
+        this.f['fsId'].setValue(task?.fsId)
+        this.f['insertDate'].setValue(task?.insertDate)
+        this.f['updateDate'].setValue(task?.updateDate)
+        this.f['title'].setValue(task?.title)
+        this.f['description'].setValue(task?.description)
+        this.f['statusId'].setValue(task?.statusId)
+        this.f['userId'].setValue(task?.userId)
+        this.f['platformId'].setValue(task?.platformId)
+        this.f['compteId'].setValue(task?.compteId)
+        this.f['dueDate'].setValue(task?.dueDate)
+        this.f['dueHour'].setValue(task?.dueHour)
+        this.f['earning'].setValue(task?.earning)
+      })
+    })
   }
 
   get f() { return this.formGroup.controls }
 
+  save() {
+    this.formGroup.markAllAsTouched()
+    if (this.formGroup.valid) {
+      const value = this.formGroup.getRawValue() as Task
+      console.log(value)
+      const promise = this.addOrUpdate(value)
+      promise.then(() => {
+        this.router.navigate(['/task/list']).then(() => {
+          this.snackBar.open('Enregistrement de la tâche effectué', 'Ok', {
+            panelClass: ['bg-green-600', 'text-white'],
+            verticalPosition: 'top',
+            duration: 5000
+          })
+        })
+      })
+    }
+  }
+
+  addOrUpdate(value: Task): Promise<any> {
+    if (this.routeType == ROUTE_TYPE.indexOf(ROUTE_TYPE_ADD))
+      return this.taskService.add(value)
+    return this.taskService.update(value)
+  }
+
+  reset() {
+    this.formGroup.reset()
+  }
+
+  updateCompte(platformId: string) {
+    const comptesByPlatforms$ = this.compteService.filterByPlatformId(this.comptes$, platformId)
+    this.comptesSelectData$ = this.compteService.toSelectData(comptesByPlatforms$)
+  }
 }

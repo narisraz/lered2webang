@@ -1,10 +1,12 @@
 <app-main>
   <h2>Mes tâches</h2>
-  <button mat-raised-button (click)="addTask()">
-    <mat-icon>add</mat-icon>
-    Nouveau
-  </button>
-  <mat-form-field class="w-1/2 ml-4 mb-4">
+  <span *ngIf="isAdmin" class="mr-4">
+    <button mat-raised-button [routerLink]="['/admin/task/new']">
+      <mat-icon>add</mat-icon>
+      Nouveau
+    </button>
+  </span>
+  <mat-form-field class="w-1/2 mb-4">
     <input matInput type="text" placeholder="Rechercher" [(ngModel)]="searchInput" />
   </mat-form-field>
 

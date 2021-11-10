@@ -38,8 +38,14 @@ export class CompteService extends CrudService<Compte> {
     )
   }
 
-  toSelectData(): Observable<SelectData[]> {
-    return super.getAll().pipe(
+  filterByPlatformId(obs: Observable<Compte[]>, platformId: string): Observable<Compte[]> {
+    return obs.pipe(
+      map(comptes => comptes.filter(compte => compte.platformId == platformId))
+    )
+  }
+
+  toSelectData(obs: Observable<Compte[]>): Observable<SelectData[]> {
+    return obs.pipe(
       map(comptes => comptes.map((compte): SelectData => {
         return {
           code: compte.fsId,

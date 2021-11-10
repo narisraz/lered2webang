@@ -1,13 +1,39 @@
-<app-form [formGroup]="formGroup" class="w-11/12">
-  <div class="grid gap-8 grid-cols-12">
-    <div class="col-span-9">
-      <app-text-field [required]="true" [formGroup]="formGroup" label="Tire" name="title"></app-text-field>
+<app-main>
+  <h2>{{title}}</h2>
+  <form [formGroup]="formGroup">
+    <div class="grid gap-8 grid-cols-12">
+      <div class="col-span-9">
+        <app-text-field [required]="true" [formGroup]="formGroup" label="Titre" name="title"></app-text-field>
+        <app-riched-text-field
+          name="description"
+          label="Description"
+          placeholder="Description de la tâche"
+          [formGroup]="formGroup"
+        ></app-riched-text-field>
+
+        <div>
+          <span class="mr-4">
+            <button mat-raised-button type="submit" (click)="save()">Enregistrer</button>
+          </span>
+          <button mat-raised-button class="mr-4" (click)="reset()">Réinitialiser</button>
+        </div>
+      </div>
+      <div class="col-span-3">
+        <app-select-field [required]="true" [formGroup]="formGroup" label="Statut" name="statusId" [values]="statutesSelectData$ | async"></app-select-field>
+        <app-select-field [required]="true" [formGroup]="formGroup" label="Assingé à" name="userId" [values]="usersSelectData$ | async"></app-select-field>
+        <app-select-field
+          [required]="true"
+          [formGroup]="formGroup"
+          label="Plateforme"
+          name="platformId"
+          [values]="platformsSelectData$ | async"
+          (onChange)="updateCompte($event)"
+        ></app-select-field>
+        <app-select-field [required]="true" [formGroup]="formGroup" label="Compte" name="compteId" [values]="comptesSelectData$ | async"></app-select-field>
+        <app-date-field [required]="true" [formGroup]="formGroup" label="Date limite" name="dueDate" ></app-date-field>
+        <app-time-field [required]="true" [formGroup]="formGroup" label="Heure limite" name="dueHour"></app-time-field>
+        <app-text-field [required]="false" [formGroup]="formGroup" label="Montant" name="earning"></app-text-field>
+      </div>
     </div>
-    <div class="col-span-3">
-      <app-select-field [required]="true" [formGroup]="formGroup" label="Statut" name="statusId" [values]="statutes$ | async"></app-select-field>
-      <app-select-field [required]="true" [formGroup]="formGroup" label="Assingé à" name="userId" [values]="users$ | async"></app-select-field>
-      <app-select-field [required]="true" [formGroup]="formGroup" label="Plateforme" name="platformId" [values]="platforms$ | async"></app-select-field>
-      <app-select-field [required]="true" [formGroup]="formGroup" label="Compte" name="compteId" [values]="comptes$ | async"></app-select-field>
-    </div>
-  </div>
-</app-form>
+  </form>
+</app-main>

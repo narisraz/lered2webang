@@ -12,7 +12,7 @@ import {AngularFireAuthGuardModule} from "@angular/fire/compat/auth-guard";
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
   ],
   imports: [
     BrowserModule,

@@ -19,8 +19,8 @@ export class PlatformService extends CrudService<Platform> {
     super.collection = PLATFORM_COLLECTION
   }
 
-  toSelectData(): Observable<SelectData[]> {
-    return super.getAll().pipe(
+  toSelectData(obs: Observable<Platform[]>): Observable<SelectData[]> {
+    return obs.pipe(
       map(platforms => platforms.map((platform): SelectData => {
         return {
           code: platform.fsId,

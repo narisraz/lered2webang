@@ -2,7 +2,7 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {TextFieldComponent} from './text-field/text-field.component';
 import {MatFormFieldModule} from "@angular/material/form-field";
-import {ReactiveFormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatInputModule} from "@angular/material/input";
 import {EmailFieldComponent} from './email-field/email-field.component';
 import {PasswordFieldComponent} from './password-field/password-field.component';
@@ -14,6 +14,10 @@ import {DateFieldComponent} from './date-field/date-field.component';
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import {MAT_MOMENT_DATE_FORMATS, MatMomentDateModule} from "@angular/material-moment-adapter";
 import {MAT_DATE_FORMATS, MAT_DATE_LOCALE, MatNativeDateModule} from "@angular/material/core";
+import { RichedTextFieldComponent } from './riched-text-field/riched-text-field.component';
+import {QuillModule} from "ngx-quill";
+import { TimeFieldComponent } from './time-field/time-field.component';
+import {NgxMaterialTimepickerModule} from "ngx-material-timepicker";
 
 
 @NgModule({
@@ -23,7 +27,9 @@ import {MAT_DATE_FORMATS, MAT_DATE_LOCALE, MatNativeDateModule} from "@angular/m
     PasswordFieldComponent,
     FormFieldComponent,
     SelectFieldComponent,
-    DateFieldComponent
+    DateFieldComponent,
+    RichedTextFieldComponent,
+    TimeFieldComponent
   ],
   imports: [
     CommonModule,
@@ -34,14 +40,19 @@ import {MAT_DATE_FORMATS, MAT_DATE_LOCALE, MatNativeDateModule} from "@angular/m
     MatSelectModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    MatMomentDateModule
+    MatMomentDateModule,
+    QuillModule.forRoot(),
+    FormsModule,
+    NgxMaterialTimepickerModule
   ],
   exports: [
     TextFieldComponent,
     EmailFieldComponent,
     PasswordFieldComponent,
     SelectFieldComponent,
-    DateFieldComponent
+    DateFieldComponent,
+    RichedTextFieldComponent,
+    TimeFieldComponent
   ],
   providers: [
     {provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS},

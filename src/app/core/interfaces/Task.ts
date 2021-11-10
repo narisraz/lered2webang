@@ -7,6 +7,9 @@ interface Task extends FirestoreData{
   userId: string
   platformId: string
   compteId: string
+  dueDate: string
+  dueHour: string
+  earning: number
 }
 
 export default Task

@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {FormFieldComponent} from "../form-field/form-field.component";
 import SelectData from "./SelectData";
 
@@ -11,6 +11,9 @@ export class SelectFieldComponent extends FormFieldComponent implements OnInit {
 
   @Input()
   values: SelectData[] | null
+
+  @Output()
+  onChange: EventEmitter<any> = new EventEmitter<any>()
 
   ngOnInit(): void {
   }

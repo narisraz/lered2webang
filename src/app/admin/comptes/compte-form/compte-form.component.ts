@@ -26,7 +26,7 @@ export class CompteFormComponent implements OnInit {
   ngOnInit(): void {
     const fields = this.dialogData.fields
     const disabledField: string[] | undefined = this.dialogData.disabledField
-    this.platforms = this.platformService.toSelectData()
+    this.platforms = this.platformService.toSelectData(this.platformService.getAll())
 
     this.formGroup = this.formBuilder.group({
       fsId: [fields?.fsId],
