@@ -13,6 +13,13 @@ import {MatPaginator} from "@angular/material/paginator";
 import {MatTableDataSource} from "@angular/material/table";
 import {MatSort} from "@angular/material/sort";
 import {Observable} from "rxjs";
+import FirestoreData from "../../core/interfaces/FirestoreData";
+import * as _ from 'lodash'
+
+
+interface Data extends FirestoreData {
+  [key: string]: any
+}
 
 @Component({
   selector: 'app-table',
@@ -75,8 +82,20 @@ export class TableComponent implements AfterViewInit, OnInit {
         this.sort.sort(column.sort)
       }
     })
+    this.dataSource.filterPredicate = this.filterPredicate
     this.dataSource.sort = this.sort
     this.changeDetector.detectChanges()
+  }
+
+  filterPredicate = (column: Data, filter: string) => {
+    let found = false
+    for (let property in column) {
+      let value = column['' + property]
+      if (!property.endsWith('Id') && 'insertDate' != property && 'updateDate' != property && !_.isNumber(value) && !_.isDate(value)) {
+        found = found || value.toLowerCase().includes(filter.toLowerCase())
+      }
+    }
+    return found
   }
 
   getRangeLabel = function (page: number, pageSize: number, length: number) {

@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit, QueryList, ViewChild, ViewChildren} from '@angular/core';
 import {StatusService} from "../../core/services/status.service";
 import {Observable} from "rxjs";
 import Status from "../../core/interfaces/Status";
@@ -42,8 +42,8 @@ export class MyTasksComponent implements OnInit {
   ]
   tableColumns: Column[]
 
-  @ViewChild('table')
-  table: TableComponent
+  @ViewChildren('table')
+  tables: QueryList<TableComponent>
 
   constructor(
     private taskService: TaskService,
@@ -93,6 +93,8 @@ export class MyTasksComponent implements OnInit {
   }
 
   filter(value: string) {
-    this.table.doFilter(value)
+    this.tables.map(table => {
+      table.doFilter(value)
+    })
   }
 }
