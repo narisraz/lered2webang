@@ -13,6 +13,9 @@
     <th mat-header-cell *matHeaderCellDef mat-sort-header> {{ column.label }} </th>
     <td mat-cell *matCellDef="let element" >
       <div *ngIf="column.name == 'actions'; else labelBlock">
+        <button *ngIf="withViewElementButton" detail mat-icon-button (click)="viewElement.emit(element)">
+          <mat-icon>remove_red_eye</mat-icon>
+        </button>
         <button mat-icon-button (click)="editElement.emit(element)">
           <mat-icon>edit</mat-icon>
         </button>

@@ -13,12 +13,17 @@ import {MatInputModule} from "@angular/material/input";
 import {MatButtonModule} from "@angular/material/button";
 import {TaskFormComponent} from './task-form/task-form.component';
 import {MatDialogModule} from "@angular/material/dialog";
+import {TaskDetailComponent} from './task-detail/task-detail.component';
+import {QuillModule} from "ngx-quill";
+import {MatListModule} from "@angular/material/list";
+import {MomentModule} from "ngx-moment";
 
 
 @NgModule({
   declarations: [
     MyTasksComponent,
-    TaskFormComponent
+    TaskFormComponent,
+    TaskDetailComponent
   ],
   imports: [
     CommonModule,
@@ -32,7 +37,10 @@ import {MatDialogModule} from "@angular/material/dialog";
     MatInputModule,
     MatButtonModule,
     MatDialogModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    QuillModule,
+    MatListModule,
+    MomentModule
   ],
   exports: [
     TaskFormComponent

@@ -27,6 +27,27 @@ export class TaskService extends CrudService<Task>{
     super.collection = TASK_COLLECTION
   }
 
+  getEnhancedTask(taskId: string): Observable<EnhancedTask | undefined> {
+    return combineLatest([
+      super.get(taskId),
+      this.statusService.getAll(),
+      this.platformService.getAll(),
+      this.compteService.getAll(),
+      this.userService.getAll()
+    ]).pipe(
+      map(([task, statutes, platforms, comptes, users]): EnhancedTask => {
+        const data: EnhancedTask = {
+          ...task,
+          statusLabel: statutes.find(status => status.fsId == task?.statusId)?.label,
+          platformName: platforms.find(platform => platform.fsId == task?.platformId)?.name,
+          compteName: comptes.find(compte => compte.fsId == task?.compteId)?.name,
+          userName: users.find(user => user.fsId == task?.userId)?.firstName
+        }
+        return data
+      })
+    )
+  }
+
   getAllEnhancedTasks(): Observable<EnhancedTask[]> {
     return combineLatest([
       super.getAll(),
@@ -47,5 +68,12 @@ export class TaskService extends CrudService<Task>{
         })
       })
     )
+  }
+
+  updateStatus(fsId: string, statusId: string): Promise<any> {
+    return this.firestore.collection<Task>(TASK_COLLECTION).doc(fsId).update({
+      statusId: statusId,
+      updateDate: this.now
+    })
   }
 }

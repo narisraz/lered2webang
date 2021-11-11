@@ -1,0 +1,33 @@
+<app-main>
+  <div class="grid gap-8 grid-cols-12" *ngIf="task$ | async as task">
+    <div class="col-span-9">
+      <h2>{{task.title}}</h2>
+      <quill-view-html theme="bubble" [content]="task?.description ?? ''"></quill-view-html>
+    </div>
+    <mat-list class="col-span-3" [formGroup]="formGroup">
+      <mat-list-item class="mb-2">
+        <app-select-field [required]="true" [formGroup]="formGroup" label="Statut" name="statusId" [values]="statutesSelectData$ | async" (onChange)="changeStatus($event)"></app-select-field>
+      </mat-list-item>
+      <mat-list-item>
+        <h3 mat-line>Traité par</h3>
+        <p mat-line>{{task.userName}}</p>
+      </mat-list-item>
+      <mat-list-item>
+        <h3 mat-line>Date limite</h3>
+        <p mat-line>{{task.dueDate | amLocale: 'fr' | amDateFormat: 'DD MMM YYYY' | uppercase }} à {{task.dueHour}}</p>
+      </mat-list-item>
+      <mat-list-item *ngIf="isAdmin">
+        <h3 mat-line>Plateforme</h3>
+        <p mat-line>{{task.platformName}}</p>
+      </mat-list-item>
+      <mat-list-item *ngIf="isAdmin">
+        <h3 mat-line>Compte</h3>
+        <p mat-line>{{task.compteName}}</p>
+      </mat-list-item>
+      <mat-list-item *ngIf="isAdmin">
+        <h3 mat-line>Montant</h3>
+        <p mat-line>{{task.earning}}</p>
+      </mat-list-item>
+    </mat-list>
+  </div>
+</app-main>

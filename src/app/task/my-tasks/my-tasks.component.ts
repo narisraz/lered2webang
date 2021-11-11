@@ -1,4 +1,4 @@
-import {Component, OnInit, QueryList, ViewChild, ViewChildren} from '@angular/core';
+import {Component, OnInit, QueryList, ViewChildren} from '@angular/core';
 import {StatusService} from "../../core/services/status.service";
 import {Observable} from "rxjs";
 import Status from "../../core/interfaces/Status";
@@ -87,7 +87,7 @@ export class MyTasksComponent implements OnInit {
     })
     refDialog.afterClosed().subscribe((result) => {
       if (CONFIRM === result) {
-        this.taskService.delete(enhancedTask.fsId)
+        this.taskService.delete(enhancedTask?.fsId ?? '')
       }
     })
   }
@@ -96,5 +96,9 @@ export class MyTasksComponent implements OnInit {
     this.tables.map(table => {
       table.doFilter(value)
     })
+  }
+
+  viewTaskDetail(enhancedTask: EnhancedTask) {
+    this.router.navigate(['/task/detail/' + enhancedTask.fsId])
   }
 }

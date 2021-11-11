@@ -77,7 +77,7 @@ export class ComptesComponent implements OnInit {
     })
     refDialog.afterClosed().subscribe((result) => {
       if (CONFIRM === result) {
-        this.compteService.delete(compte.fsId)
+        this.compteService.delete(compte?.fsId ?? '')
       }
     })
   }

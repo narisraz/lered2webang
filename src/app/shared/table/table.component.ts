@@ -30,32 +30,27 @@ export class TableComponent implements AfterViewInit, OnInit {
 
   @Input() title: string
 
-  @Input()
-  columns: Column[] = []
+  @Input() columns: Column[] = []
 
-  @Input()
-  data$: Observable<any>
+  @Input() data$: Observable<any>
 
-  @Input()
-  withSearchForm: boolean = true
+  @Input() withSearchForm: boolean = true
 
-  @Input()
-  withAddButton: boolean = true
+  @Input() withAddButton: boolean = true
 
-  @Output()
-  editElement: EventEmitter<any> = new EventEmitter<any>()
+  @Input() withViewElementButton = false
 
-  @Output()
-  deleteElement: EventEmitter<any> = new EventEmitter<any>()
+  @Output() editElement: EventEmitter<any> = new EventEmitter<any>()
 
-  @Output()
-  addElement: EventEmitter<any> = new EventEmitter<any>()
+  @Output() deleteElement: EventEmitter<any> = new EventEmitter<any>()
 
-  @ViewChild(MatPaginator)
-  paginator: MatPaginator;
+  @Output() addElement: EventEmitter<any> = new EventEmitter<any>()
 
-  @ViewChild(MatSort)
-  sort: MatSort;
+  @Output() viewElement: EventEmitter<any> = new EventEmitter<any>()
+
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+
+  @ViewChild(MatSort) sort: MatSort;
 
   loading = true
   displayedColumns?: string[] = []

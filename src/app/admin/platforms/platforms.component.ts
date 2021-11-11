@@ -75,7 +75,7 @@ export class PlatformsComponent implements OnInit {
     })
     refDialog.afterClosed().subscribe((result) => {
       if (CONFIRM === result) {
-        this.platformService.delete(platform.fsId)
+        this.platformService.delete(platform?.fsId ?? '')
       }
     })
   }

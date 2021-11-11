@@ -90,7 +90,7 @@ export class StatutesComponent implements OnInit {
     })
     refDialog.afterClosed().subscribe((result) => {
       if (CONFIRM === result) {
-        this.statusService.delete(status.fsId)
+        this.statusService.delete(status?.fsId ?? '')
       }
     })
   }

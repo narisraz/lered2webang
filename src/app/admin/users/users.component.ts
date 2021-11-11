@@ -91,7 +91,7 @@ export class UsersComponent implements OnInit {
     })
     refDialog.afterClosed().subscribe((result) => {
       if (CONFIRM === result) {
-        this.userService.delete(user.fsId)
+        this.userService.delete(user?.fsId ?? '')
       }
     })
   }

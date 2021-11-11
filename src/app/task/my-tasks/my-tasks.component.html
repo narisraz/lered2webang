@@ -19,12 +19,15 @@
         #table
         [withSearchForm]="false"
         [withAddButton]="false"
+        [withViewElementButton]="true"
         [title]="status.label"
-        [data$]="tasksByStatus(status.fsId)"
+        [data$]="tasksByStatus(status?.fsId ?? '')"
         [columns]="tableColumns"
         (editElement)="editTask($event)"
         (deleteElement)="deleteTask($event)"
-      ></app-table>
+        (viewElement)="viewTaskDetail($event)"
+      >
+      </app-table>
     </mat-card>
   </div>
 </app-main>
