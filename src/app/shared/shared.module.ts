@@ -14,11 +14,19 @@ import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {MatProgressBarModule} from "@angular/material/progress-bar";
 import {MomentModule} from "ngx-moment";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
+import { CommentComponent } from './comment/comment.component';
+import {ReactiveFormsModule} from "@angular/forms";
+import {MatListModule} from "@angular/material/list";
+import {MatCardModule} from "@angular/material/card";
+import {QuillModule} from "ngx-quill";
+import { CommentFormComponent } from './comment/comment-form/comment-form.component';
 
 
 @NgModule({
   declarations: [
     TableComponent,
+    CommentComponent,
+    CommentFormComponent,
   ],
   imports: [
     CommonModule,
@@ -38,11 +46,16 @@ import {MatSnackBarModule} from "@angular/material/snack-bar";
         m: 59
       }
     }),
-    MatSnackBarModule
+    MatSnackBarModule,
+    ReactiveFormsModule,
+    MatListModule,
+    MatCardModule,
+    QuillModule
   ],
   exports: [
     DialogModule,
     TableComponent,
+    CommentComponent,
     FormModule
   ]
 })

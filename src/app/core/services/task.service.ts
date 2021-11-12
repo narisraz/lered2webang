@@ -10,6 +10,7 @@ import {StatusService} from "./status.service";
 import {PlatformService} from "./platform.service";
 import {CompteService} from "./compte.service";
 import {UserService} from "./user.service";
+import {CommentService} from "./comment.service";
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +22,8 @@ export class TaskService extends CrudService<Task>{
     private statusService: StatusService,
     private platformService: PlatformService,
     private compteService: CompteService,
-    private userService: UserService
+    private userService: UserService,
+    private commentService: CommentService
   ) {
     super(firestore)
     super.collection = TASK_COLLECTION
@@ -74,6 +76,15 @@ export class TaskService extends CrudService<Task>{
     return this.firestore.collection<Task>(TASK_COLLECTION).doc(fsId).update({
       statusId: statusId,
       updateDate: this.now
+    })
+  }
+
+  addComment(fsId: string, userId: string, comment: string): Promise<any> {
+    const commentId = this.firestore.createId()
+    return this.commentService.addTaskComment(fsId, {
+      value: comment,
+      fsId: commentId,
+      userId: userId
     })
   }
 }

@@ -1,0 +1,23 @@
+<mat-list *ngIf="comments$ | async as comments">
+  <mat-card *ngFor="let comment of comments" class="mb-4">
+    <div class="flex justify-between">
+      <div>
+        <mat-card-title>
+          {{comment.userName}}
+        </mat-card-title>
+        <mat-card-subtitle>{{comment.insertDate | amLocale: 'fr' | amTimeAgo}}</mat-card-subtitle>
+      </div>
+      <div *ngIf="isOwner(comment)">
+        <button mat-icon-button (click)="edit(comment)">
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button mat-icon-button (click)="delete(comment?.fsId ?? '')">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </div>
+    </div>
+    <mat-card-content>
+      <quill-view theme="bubble" [content]="comment.value" format="json"></quill-view>
+    </mat-card-content>
+  </mat-card>
+</mat-list>

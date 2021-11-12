@@ -1,8 +1,37 @@
 <app-main>
   <div class="grid gap-8 grid-cols-12" *ngIf="task$ | async as task">
     <div class="col-span-9">
-      <h2>{{task.title}}</h2>
-      <quill-view-html theme="bubble" [content]="task?.description ?? ''"></quill-view-html>
+      <div class="flex justify-between">
+        <h2>{{task.title}}</h2>
+        <div *ngIf="isAdmin">
+          <button mat-icon-button [routerLink]="['/admin/task/edit/' + task?.fsId + '']">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button (click)="delete(task?.fsId ?? '')">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
+      </div>
+      <div class="mb-4">
+        <quill-view format="json" [content]="task?.description ?? ''"></quill-view>
+      </div>
+      <form [formGroup]="formGroup">
+        <app-riched-text-field
+          name="comment"
+          label="Commentaire"
+          placeholder="Votre commmentaire"
+          [formGroup]="formGroup"
+        ></app-riched-text-field>
+        <button mat-raised-button (click)="saveComment()">
+          Envoyer
+        </button>
+      </form>
+      <div class="my-4">
+        <mat-divider></mat-divider>
+      </div>
+      <div>
+        <app-comment [comments$]="comments$" [loggedUserId]="loggedUser?.fsId ?? ''" [parent]="collection" [parentId]="task?.fsId ?? ''"></app-comment>
+      </div>
     </div>
     <mat-list class="col-span-3" [formGroup]="formGroup">
       <mat-list-item class="mb-2">

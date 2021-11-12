@@ -19,6 +19,7 @@ export const PLATFORM_COLLECTION = 'platforms'
 export const COMPTE_COLLECTION = 'comptes'
 export const STATUS_COLLECTION = 'statutes'
 export const TASK_COLLECTION = 'tasks'
+export const COMMENT_COLLECTION = 'comments'
 
 export const LOCALSTORAGE_ROLE_ID = 'role'
 

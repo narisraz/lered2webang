@@ -4,6 +4,6 @@
 </div>
 <div mat-dialog-actions>
   <button mat-raised-button type="submit" class="mr-4" (click)="save()">Enregistrer</button>
-  <button mat-raised-button type="submit" class="mr-4" (click)="reset()">Réinitialiser</button>
+  <button *ngIf="withRazButton" mat-raised-button type="submit" class="mr-4" (click)="reset()">Réinitialiser</button>
   <button mat-raised-button [mat-dialog-close]="cancel">Annuler</button>
 </div>

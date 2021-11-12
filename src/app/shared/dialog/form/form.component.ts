@@ -13,6 +13,8 @@ export class FormComponent implements OnInit {
 
   cancel = CANCEL
 
+  @Input() withRazButton = true
+
   @Input()
   formGroup: FormGroup
 
