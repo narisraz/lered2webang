@@ -11,7 +11,7 @@ import {MatInputModule} from "@angular/material/input";
 import {MatCheckboxModule} from "@angular/material/checkbox";
 import {FormModule} from "../shared/form/form.module";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
-import {FormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 
 
 @NgModule({
@@ -20,6 +20,7 @@ import {FormsModule} from "@angular/forms";
   ],
   imports: [
     CommonModule,
+    ReactiveFormsModule,
     LoginRoutingModule,
     TemplateModule,
     MatCardModule,

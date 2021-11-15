@@ -1,19 +1,21 @@
 <app-empty class="flex h-screen">
   <mat-card class="w-1/4 m-auto">
-    <mat-card-title>Login</mat-card-title>
-    <mat-card-content class="flex-col">
-      <mat-form-field class="w-full">
-        <mat-label>Email</mat-label>
-        <input matInput placeholder="Email" [(ngModel)]="email">
-      </mat-form-field>
-      <mat-form-field class="w-full">
-        <mat-label>Mot de passe</mat-label>
-        <input matInput placeholder="Mot de passe" type="password" [(ngModel)]="password">
-      </mat-form-field>
-      <a class="text-green-400" [routerLink]="['/forgot-password']" [queryParams]="{email: email}">Mot de passe oublié ?</a>
-    </mat-card-content>
-    <mat-card-actions class="text-center">
-      <button mat-raised-button (click)="login()">Login</button>
-    </mat-card-actions>
+    <form (ngSubmit)="login()" [formGroup]="formGroup">
+      <mat-card-title>Login</mat-card-title>
+      <mat-card-content class="flex-col">
+        <mat-form-field class="w-full">
+          <mat-label>Email</mat-label>
+          <input matInput placeholder="Email" formControlName="email">
+        </mat-form-field>
+        <mat-form-field class="w-full">
+          <mat-label>Mot de passe</mat-label>
+          <input matInput placeholder="Mot de passe" type="password" formControlName="password">
+        </mat-form-field>
+        <a class="text-green-400" (click)="forgotPassword()">Mot de passe oublié ?</a>
+      </mat-card-content>
+      <mat-card-actions class="text-center">
+        <button mat-raised-button type="submit">Login</button>
+      </mat-card-actions>
+    </form>
   </mat-card>
 </app-empty>
