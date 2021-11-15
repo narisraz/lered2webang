@@ -14,6 +14,8 @@ import {CONFIRM} from "../../shared/dialog/Constants";
 import {MatDialog} from "@angular/material/dialog";
 import {Router} from "@angular/router";
 import {ConfirmComponent} from "../../shared/dialog/confirm/confirm.component";
+import Platform from "../../core/interfaces/Platform";
+import {PlatformService} from "../../core/services/platform.service";
 
 @Component({
   selector: 'app-my-tasks',
@@ -24,9 +26,9 @@ export class MyTasksComponent implements OnInit {
 
   loggedUser$: Observable<User>
   isAdmin: boolean = false
-  statutes$: Observable<Status[]>
+  platforms$: Observable<Platform[]>
   enhancedTask$: Observable<EnhancedTask[]>
-  adminTableColumns: Column[] = [
+  tableColumns: Column[] = [
     { name: 'platformName', label: 'Plateforme' },
     { name: 'compteName', label: 'Compte' },
     { name: 'userName', label: 'Assigné à' },
@@ -34,20 +36,13 @@ export class MyTasksComponent implements OnInit {
     { name: 'statusLabel', label: 'Statut' },
     { name: 'actions', label: 'Actions' },
   ]
-  userTableColumns: Column[] = [
-    { name: 'userName', label: 'Assigné à' },
-    { name: 'title', label: 'Titre' },
-    { name: 'statusLabel', label: 'Statut' },
-    { name: 'actions', label: 'Actions' },
-  ]
-  tableColumns: Column[]
 
   @ViewChildren('table')
   tables: QueryList<TableComponent>
 
   constructor(
     private taskService: TaskService,
-    private statusService: StatusService,
+    private platformService: PlatformService,
     private authService: AuthService,
     private userService: UserService,
     private router: Router,
@@ -57,20 +52,15 @@ export class MyTasksComponent implements OnInit {
   ngOnInit(): void {
     this.loggedUser$ = this.authService.loggedUser
     this.enhancedTask$ = this.taskService.getAllEnhancedTasks()
-    this.statutes$ = this.statusService.getStatutesPerUserRole(this.loggedUser$)
+    this.platforms$ = this.platformService.getAll()
     this.loggedUser$.subscribe(user => {
       this.isAdmin = this.userService.isAdmin(user)
-      if (this.isAdmin)
-        this.tableColumns = this.adminTableColumns
-      else
-        this.tableColumns = this.userTableColumns
-      }
-    )
+    })
   }
 
-  tasksByStatus(statusFsId: string) {
+  tasksByPlatform(platformId: string) {
     return this.enhancedTask$.pipe(
-      map(tasks => tasks.filter(task => task.statusId == statusFsId))
+      map(tasks => tasks.filter(task => task.platformId == platformId))
     )
   }
 

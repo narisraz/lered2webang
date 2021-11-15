@@ -10,19 +10,19 @@
     <input #searchInput matInput type="text" placeholder="Rechercher" (keyup)="filter(searchInput.value)" />
   </mat-form-field>
 
-  <div *ngIf="(statutes$ | async) as statutes">
+  <div *ngIf="(platforms$ | async) as platforms">
     <mat-card
       class="mb-4"
-      *ngFor="let status of statutes"
+      *ngFor="let platform of platforms"
     >
       <app-table
         #table
-        [isAdmin]="isAdmin"
+        [isAdmin]="true"
         [withSearchForm]="false"
         [withAddButton]="false"
         [withViewElementButton]="true"
-        [title]="status.label"
-        [data$]="tasksByStatus(status?.fsId ?? '')"
+        [title]="platform.name"
+        [data$]="tasksByPlatform(platform?.fsId ?? '')"
         [columns]="tableColumns"
         (editElement)="editTask($event)"
         (deleteElement)="deleteTask($event)"
