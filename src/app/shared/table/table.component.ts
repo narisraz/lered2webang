@@ -28,6 +28,8 @@ interface Data extends FirestoreData {
 })
 export class TableComponent implements AfterViewInit, OnInit {
 
+  @Input() isAdmin = false
+
   @Input() title: string
 
   @Input() columns: Column[] = []

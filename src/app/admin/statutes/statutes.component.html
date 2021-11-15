@@ -1,6 +1,7 @@
 <app-main>
   <app-table
     #table
+    [isAdmin]="true"
     title="Liste des statuts"
     [data$]="statutes$"
     [columns]="tableColumns"

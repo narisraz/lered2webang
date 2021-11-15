@@ -1,6 +1,7 @@
 <app-main>
   <app-table
     #table
+    [isAdmin]="true"
     title="Liste des plateformes"
     [data$]="platforms$"
     [columns]="tableColumns"
