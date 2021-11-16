@@ -1,7 +1,7 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {Observable} from "rxjs";
 import Compte from "../../core/interfaces/Compte";
-import Column from "../../shared/table/Column";
+import TableColumn from "../../shared/table/TableColumn";
 import {TableComponent} from "../../shared/table/table.component";
 import {MatDialog} from "@angular/material/dialog";
 import {CompteService} from "../../core/services/compte.service";
@@ -18,7 +18,7 @@ import {ConfirmComponent} from "../../shared/dialog/confirm/confirm.component";
 export class ComptesComponent implements OnInit {
 
   enhancedComptes$: Observable<EnhancedCompte[]>;
-  tableColumns: Column[] = [
+  tableColumns: TableColumn[] = [
     { name: 'platformLabel', label: 'Plateforme' },
     { name: 'name', label: 'Nom' },
     { name: 'firstName', label: 'Prénom' },

@@ -75,7 +75,7 @@ export class TaskService extends CrudService<Task>{
   updateStatus(fsId: string, statusId: string): Promise<any> {
     return this.firestore.collection<Task>(TASK_COLLECTION).doc(fsId).update({
       statusId: statusId,
-      updateDate: this.now
+      updateDate: this.now()
     })
   }
 

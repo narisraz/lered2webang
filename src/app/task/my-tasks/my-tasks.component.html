@@ -1,16 +1,45 @@
 <app-main>
   <h2>Mes tâches</h2>
-  <span *ngIf="isAdmin" class="mr-4">
-    <button mat-raised-button [routerLink]="['/admin/task/new']">
-      <mat-icon>add</mat-icon>
-      Nouveau
-    </button>
-  </span>
-  <mat-form-field class="w-1/2 mb-4">
-    <input #searchInput matInput type="text" placeholder="Rechercher" (keyup)="filter(searchInput.value)" />
-  </mat-form-field>
 
-  <div *ngIf="(platforms$ | async) as platforms">
+  <div class="flex justify-between">
+    <div class="w-full mb-4">
+      <span *ngIf="isAdmin" class="mr-4">
+        <button mat-raised-button [routerLink]="['/admin/task/new']">
+          <mat-icon>add</mat-icon>
+          Nouveau
+        </button>
+      </span>
+      <mat-form-field class="w-1/2">
+        <input #searchInput matInput type="text" placeholder="Rechercher" (keyup)="filter(searchInput.value)" />
+      </mat-form-field>
+    </div>
+    <div class="flex">
+      <div class="flex-none mt-3">
+        Vues :
+      </div>
+      <button mat-icon-button (click)="switchToKanbanView()">
+        <mat-icon>view_module</mat-icon>
+      </button>
+      <button mat-icon-button (click)="switchToTableView()">
+        <mat-icon>view_list</mat-icon>
+      </button>
+    </div>
+  </div>
+
+  <div *ngIf="kanbanView">
+    <app-kanban
+      [board$]="kanbanBoard$"
+      (onChangeContainer)="changeStatus($event)"
+    >
+      <ng-template let-item>
+        <app-task-card
+          [task]="item"
+        ></app-task-card>
+      </ng-template>
+    </app-kanban>
+  </div>
+
+  <div *ngIf="tableView && (platforms$ | async) as platforms">
     <mat-card
       class="mb-4"
       *ngFor="let platform of platforms"

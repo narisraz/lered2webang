@@ -8,7 +8,7 @@ import {
   Output,
   ViewChild
 } from '@angular/core';
-import Column from "./Column";
+import TableColumn from "./TableColumn";
 import {MatPaginator} from "@angular/material/paginator";
 import {MatTableDataSource} from "@angular/material/table";
 import {MatSort} from "@angular/material/sort";
@@ -32,7 +32,7 @@ export class TableComponent implements AfterViewInit, OnInit {
 
   @Input() title: string
 
-  @Input() columns: Column[] = []
+  @Input() columns: TableColumn[] = []
 
   @Input() data$: Observable<any>
 

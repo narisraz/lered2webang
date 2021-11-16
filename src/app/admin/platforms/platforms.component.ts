@@ -1,7 +1,7 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {Observable} from "rxjs";
 import {CANCEL, CONFIRM} from "../../shared/dialog/Constants";
-import Column from "../../shared/table/Column";
+import TableColumn from "../../shared/table/TableColumn";
 import {TableComponent} from "../../shared/table/table.component";
 import {MatDialog} from "@angular/material/dialog";
 import Platform from "../../core/interfaces/Platform";
@@ -17,7 +17,7 @@ import {ConfirmComponent} from "../../shared/dialog/confirm/confirm.component";
 export class PlatformsComponent implements OnInit {
 
   platforms$: Observable<Platform[]>
-  tableColumns: Column[] = [
+  tableColumns: TableColumn[] = [
     { name: 'name', label: 'Nom' },
     { name: 'url', label: 'URL' },
     { name: 'actions', label: 'Actions' },

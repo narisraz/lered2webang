@@ -10,7 +10,7 @@ import * as moment from "moment";
 export class CrudService<T> {
 
   collection: string
-  now = moment().local(true).format()
+  now = () => moment().local(true).format()
 
   constructor(
     private afFs: AngularFirestore
@@ -35,7 +35,7 @@ export class CrudService<T> {
     const id = this.afFs.createId()
     const data: T = {
       ...value,
-      insertDate: this.now,
+      insertDate: this.now(),
       fsId: id
     }
     return this.update(data)
@@ -45,7 +45,7 @@ export class CrudService<T> {
     return this.afFs.collection<T>(this.collection).doc(value.fsId)
       .set({
         ...value,
-        updateDate: this.now
+        updateDate: this.now()
       })
   }
 }

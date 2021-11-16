@@ -14,12 +14,14 @@ import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {MatProgressBarModule} from "@angular/material/progress-bar";
 import {MomentModule} from "ngx-moment";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
-import { CommentComponent } from './comment/comment.component';
+import {CommentComponent} from './comment/comment.component';
 import {ReactiveFormsModule} from "@angular/forms";
 import {MatListModule} from "@angular/material/list";
 import {MatCardModule} from "@angular/material/card";
 import {QuillModule} from "ngx-quill";
-import { CommentFormComponent } from './comment/comment-form/comment-form.component';
+import {CommentFormComponent} from './comment/comment-form/comment-form.component';
+import {KanbanComponent} from './kanban/kanban.component';
+import {DragDropModule} from "@angular/cdk/drag-drop";
 
 
 @NgModule({
@@ -27,6 +29,7 @@ import { CommentFormComponent } from './comment/comment-form/comment-form.compon
     TableComponent,
     CommentComponent,
     CommentFormComponent,
+    KanbanComponent,
   ],
   imports: [
     CommonModule,
@@ -50,13 +53,15 @@ import { CommentFormComponent } from './comment/comment-form/comment-form.compon
     ReactiveFormsModule,
     MatListModule,
     MatCardModule,
-    QuillModule
+    QuillModule,
+    DragDropModule
   ],
   exports: [
     DialogModule,
     TableComponent,
     CommentComponent,
-    FormModule
+    FormModule,
+    KanbanComponent
   ]
 })
 export class SharedModule { }

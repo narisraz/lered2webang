@@ -1,7 +1,7 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {Observable} from "rxjs";
 import Status from "../../core/interfaces/Status";
-import Column from "../../shared/table/Column";
+import TableColumn from "../../shared/table/TableColumn";
 import {TableComponent} from "../../shared/table/table.component";
 import {MatDialog} from "@angular/material/dialog";
 import {StatusService} from "../../core/services/status.service";
@@ -19,7 +19,7 @@ import EnhancedStatus from "../../core/interfaces/EnhancedStatus";
 export class StatutesComponent implements OnInit {
 
   statutes$: Observable<EnhancedStatus[]>;
-  tableColumns: Column[] = [
+  tableColumns: TableColumn[] = [
     { name: 'label', label: 'Libellé' },
     { name: 'roleLabel', label: 'Visible par',
       sort: {

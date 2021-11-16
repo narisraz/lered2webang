@@ -17,13 +17,15 @@ import {TaskDetailComponent} from './task-detail/task-detail.component';
 import {QuillModule} from "ngx-quill";
 import {MatListModule} from "@angular/material/list";
 import {MomentModule} from "ngx-moment";
+import {TaskCardComponent} from './task-card/task-card.component';
 
 
 @NgModule({
   declarations: [
     MyTasksComponent,
     TaskFormComponent,
-    TaskDetailComponent
+    TaskDetailComponent,
+    TaskCardComponent
   ],
   imports: [
     CommonModule,

@@ -1,0 +1,22 @@
+<div cdkDropListGroup class="flex" *ngIf="board$ | async as board">
+  <div *ngFor="let column of board.columns" class="mr-4 board">
+    <div *ngIf="column.items | async as items">
+      <div class="p-4 rounded-md bg-gray-800">
+        <h2 class="text-center">
+          {{column.name}}
+        </h2>
+        <mat-divider></mat-divider>
+        <div
+          class="grid gap-4 pt-4 kanban-list-item"
+          cdkDropList
+          [id]="column.id"
+          [cdkDropListData]="items"
+          (cdkDropListDropped)="drop($event)">
+          <div *ngFor="let item of items" cdkDrag class="cursor-move kanban-box">
+            <ng-template [ngTemplateOutlet]="templateRef" [ngTemplateOutletContext]="{$implicit: item}"></ng-template>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

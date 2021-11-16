@@ -1,7 +1,7 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {UserService} from "../../core/services/user.service";
 import User from "../../core/interfaces/User";
-import Column from "../../shared/table/Column";
+import TableColumn from "../../shared/table/TableColumn";
 import {TableComponent} from "../../shared/table/table.component";
 import {MatDialog} from "@angular/material/dialog";
 import {ConfirmComponent} from "../../shared/dialog/confirm/confirm.component";
@@ -24,7 +24,7 @@ export class UsersComponent implements OnInit {
 
   users$: Observable<EnhancedUser[]>
   roles = ROLES
-  tableColumns: Column[] = [
+  tableColumns: TableColumn[] = [
     { name: 'email', label: 'Email' },
     { name: 'name', label: 'Nom' },
     { name: 'firstName', label: 'Prénom' },

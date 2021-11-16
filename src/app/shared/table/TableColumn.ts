@@ -1,10 +1,10 @@
 import {MatSortable} from "@angular/material/sort";
 
-interface Column {
+interface TableColumn {
   name: string
   label: string
   type?: 'date'
   sort?: MatSortable
 }
 
-export default Column
+export default TableColumn
