@@ -1,5 +1,5 @@
-<div cdkDropListGroup class="flex" *ngIf="board$ | async as board">
-  <div *ngFor="let column of board.columns" class="mr-4 board">
+<div cdkDropListGroup [ngClass]="'grid gap-4 grid-cols-' + board.columns.length ?? 4" *ngIf="board$ | async as board">
+  <div *ngFor="let column of board.columns">
     <div *ngIf="column.items | async as items">
       <div class="p-4 rounded-md bg-gray-800">
         <h2 class="text-center">
