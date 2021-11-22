@@ -1,4 +1,10 @@
 <mat-card>
   <mat-card-title class="cursor-pointer" [routerLink]="['/task/detail/' + task.fsId]">{{task.title}}</mat-card-title>
   <mat-card-subtitle>{{task.userName}}</mat-card-subtitle>
+  <mat-card-content>
+    <div class="flex items-end">
+      <mat-icon>date_range</mat-icon>
+      <span class="ml-2">{{task.dueDate | amLocale: 'fr' | amDateFormat: 'DD MMM YYYY' | uppercase }} à {{task.dueHour}}</span>
+    </div>
+  </mat-card-content>
 </mat-card>

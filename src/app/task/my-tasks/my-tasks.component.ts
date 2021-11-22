@@ -1,10 +1,10 @@
-import {Component, OnInit, QueryList, ViewChildren} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, OnInit, QueryList, ViewChild, ViewChildren} from '@angular/core';
 import {StatusService} from "../../core/services/status.service";
-import {Observable} from "rxjs";
+import {combineLatest, fromEvent, Observable, zip} from "rxjs";
 import Status from "../../core/interfaces/Status";
 import EnhancedTask from "../../core/interfaces/EnhancedTask";
 import {TaskService} from "../../core/services/task.service";
-import {map} from "rxjs/operators";
+import {map, startWith, withLatestFrom} from "rxjs/operators";
 import TableColumn from "../../shared/table/TableColumn";
 import {TableComponent} from "../../shared/table/table.component";
 import User from "../../core/interfaces/User";
@@ -20,17 +20,21 @@ import Board from "../../shared/kanban/models/board.model";
 import KanbanColumn from "../../shared/kanban/models/column.model";
 import KanbanData from "../../shared/kanban/models/kanban-data.model";
 import {MatSnackBar} from "@angular/material/snack-bar";
+import {MatInput} from "@angular/material/input";
+import {startsWith} from "lodash";
 
 @Component({
   selector: 'app-my-tasks',
   templateUrl: './my-tasks.component.html',
   styleUrls: ['./my-tasks.component.scss']
 })
-export class MyTasksComponent implements OnInit {
+export class MyTasksComponent implements OnInit, AfterViewInit {
 
   tableView = false
   kanbanView = true
 
+  @ViewChild('searchInput', { static: true }) searchInput: ElementRef;
+  onTypeSearchInput$: Observable<any>
   loggedUser$: Observable<User>
   isAdmin: boolean = false
   platforms$: Observable<Platform[]>
@@ -59,6 +63,10 @@ export class MyTasksComponent implements OnInit {
     private dialog: MatDialog,
     private snackBar: MatSnackBar
   ) { }
+
+  ngAfterViewInit(): void {
+    this.onTypeSearchInput$ = fromEvent(this.searchInput.nativeElement, 'keyup')
+  }
 
   ngOnInit(): void {
     this.loggedUser$ = this.authService.loggedUser
@@ -96,9 +104,13 @@ export class MyTasksComponent implements OnInit {
   }
 
   filter(value: string) {
-    this.tables.map(table => {
-      table.doFilter(value)
-    })
+    if (this.kanbanView) {
+
+    } else {
+      this.tables.map(table => {
+        table.doFilter(value)
+      })
+    }
   }
 
   buildBoard(): Observable<Board<any>> {
@@ -130,9 +142,21 @@ export class MyTasksComponent implements OnInit {
   }
 
   tasksByStatus(status: Status): Observable<EnhancedTask[]> {
-    return this.enhancedTask$.pipe(
-      map(tasks => tasks.filter(task => task.statusId == status?.fsId ?? '')),
-    );
+    return combineLatest([
+      this.onTypeSearchInput$.pipe(startWith(false)),
+      this.enhancedTask$
+    ]).pipe(
+      map(([searchValue, tasks]) => {
+        console.log(searchValue)
+        const filteredTasks = tasks.filter(task => task.statusId == status?.fsId ?? '')
+        if (searchValue.target) {
+          return filteredTasks.filter(filteredTask =>
+            filteredTask.userName?.toLowerCase().includes(searchValue.target.value.toLowerCase())
+            || filteredTask.title?.toLowerCase().includes(searchValue.target.value.toLowerCase()))
+        }
+        return filteredTasks
+      })
+    )
   }
 
   viewTaskDetail(enhancedTask: EnhancedTask) {
