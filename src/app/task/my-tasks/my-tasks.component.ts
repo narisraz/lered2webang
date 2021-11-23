@@ -1,10 +1,10 @@
-import {AfterViewInit, Component, ElementRef, OnInit, QueryList, ViewChild, ViewChildren} from '@angular/core';
+import {Component, OnInit, QueryList, ViewChildren} from '@angular/core';
 import {StatusService} from "../../core/services/status.service";
-import {combineLatest, fromEvent, Observable, zip} from "rxjs";
+import {BehaviorSubject, combineLatest, Observable} from "rxjs";
 import Status from "../../core/interfaces/Status";
 import EnhancedTask from "../../core/interfaces/EnhancedTask";
 import {TaskService} from "../../core/services/task.service";
-import {map, startWith, withLatestFrom} from "rxjs/operators";
+import {map} from "rxjs/operators";
 import TableColumn from "../../shared/table/TableColumn";
 import {TableComponent} from "../../shared/table/table.component";
 import User from "../../core/interfaces/User";
@@ -20,21 +20,24 @@ import Board from "../../shared/kanban/models/board.model";
 import KanbanColumn from "../../shared/kanban/models/column.model";
 import KanbanData from "../../shared/kanban/models/kanban-data.model";
 import {MatSnackBar} from "@angular/material/snack-bar";
-import {MatInput} from "@angular/material/input";
-import {startsWith} from "lodash";
+import {FormBuilder, FormGroup} from "@angular/forms";
+import * as moment from "moment";
+
 
 @Component({
   selector: 'app-my-tasks',
   templateUrl: './my-tasks.component.html',
   styleUrls: ['./my-tasks.component.scss']
 })
-export class MyTasksComponent implements OnInit, AfterViewInit {
+export class MyTasksComponent implements OnInit {
 
   tableView = false
   kanbanView = true
+  formGroup: FormGroup
 
-  @ViewChild('searchInput', { static: true }) searchInput: ElementRef;
-  onTypeSearchInput$: Observable<any>
+  searchSubject$ = new BehaviorSubject('')
+  startSubject$ = new BehaviorSubject(moment().subtract(5, 'd').local(true).set({h: 0, m: 0}))
+  endSubject$ = new BehaviorSubject(moment().local(true).set({h: 23, m: 59}))
   loggedUser$: Observable<User>
   isAdmin: boolean = false
   platforms$: Observable<Platform[]>
@@ -61,14 +64,15 @@ export class MyTasksComponent implements OnInit, AfterViewInit {
     private statusService: StatusService,
     private router: Router,
     private dialog: MatDialog,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private formBuilder: FormBuilder
   ) { }
 
-  ngAfterViewInit(): void {
-    this.onTypeSearchInput$ = fromEvent(this.searchInput.nativeElement, 'keyup')
-  }
-
   ngOnInit(): void {
+    this.formGroup = this.formBuilder.group({
+      start: [moment().subtract(5, 'd').local(true).format()],
+      end: [moment().local(true).format()],
+    })
     this.loggedUser$ = this.authService.loggedUser
     this.enhancedTask$ = this.taskService.getAllEnhancedTasks()
     this.platforms$ = this.platformService.getAll()
@@ -105,7 +109,7 @@ export class MyTasksComponent implements OnInit, AfterViewInit {
 
   filter(value: string) {
     if (this.kanbanView) {
-
+      this.searchSubject$.next(value)
     } else {
       this.tables.map(table => {
         table.doFilter(value)
@@ -143,16 +147,22 @@ export class MyTasksComponent implements OnInit, AfterViewInit {
 
   tasksByStatus(status: Status): Observable<EnhancedTask[]> {
     return combineLatest([
-      this.onTypeSearchInput$.pipe(startWith(false)),
+      this.startSubject$,
+      this.endSubject$,
+      this.searchSubject$,
       this.enhancedTask$
     ]).pipe(
-      map(([searchValue, tasks]) => {
-        console.log(searchValue)
-        const filteredTasks = tasks.filter(task => task.statusId == status?.fsId ?? '')
-        if (searchValue.target) {
+      map(([startDate, endDate, searchValue, tasks]) => {
+        let filteredTasks = tasks.filter(task => task.statusId == status?.fsId ?? '')
+        if (startDate && endDate) {
+          filteredTasks = filteredTasks.filter(task => {
+            return moment(task.insertDate).isBetween(startDate, endDate)
+          })
+        }
+        if (searchValue) {
           return filteredTasks.filter(filteredTask =>
-            filteredTask.userName?.toLowerCase().includes(searchValue.target.value.toLowerCase())
-            || filteredTask.title?.toLowerCase().includes(searchValue.target.value.toLowerCase()))
+            filteredTask.userName?.toLowerCase().includes(searchValue.toLowerCase())
+            || filteredTask.title?.toLowerCase().includes(searchValue.toLowerCase()))
         }
         return filteredTasks
       })
@@ -181,5 +191,17 @@ export class MyTasksComponent implements OnInit, AfterViewInit {
         duration: 3000
       })
     })
+  }
+
+  get f() { return this.formGroup.controls }
+
+  startDateChange() {
+    const startDate = this.f['start'].value
+    this.startSubject$.next(moment(startDate, 'DD/MMM/YYYY').set({h: 0, m: 0}))
+  }
+
+  endDateChange() {
+    const endDate = this.f['end'].value
+    this.endSubject$.next(moment(endDate, 'DD/MMM/YYYY').set({h: 23, m: 59}))
   }
 }

@@ -2,8 +2,6 @@ import {Component, ContentChild, EventEmitter, Input, OnInit, Output, TemplateRe
 import {CdkDragDrop, moveItemInArray, transferArrayItem} from "@angular/cdk/drag-drop";
 import Board from "./models/board.model";
 import {Observable} from "rxjs";
-import {map} from "rxjs/operators";
-import FirestoreData from "../../core/interfaces/FirestoreData";
 import KanbanData from "./models/kanban-data.model";
 
 @Component({

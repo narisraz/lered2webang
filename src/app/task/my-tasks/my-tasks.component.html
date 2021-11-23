@@ -11,6 +11,18 @@
       </span>
       <mat-form-field class="w-1/2">
         <input #searchInput matInput type="text" placeholder="Rechercher" (keyup)="filter(searchInput.value)" />
+        <button *ngIf="searchInput.value" matSuffix mat-icon-button aria-label="Clear" (click)="searchInput.value=''">
+          <mat-icon>close</mat-icon>
+        </button>
+      </mat-form-field>
+      <mat-form-field class="ml-4">
+        <mat-label>Date de création</mat-label>
+        <mat-date-range-input [rangePicker]="picker" [formGroup]="formGroup">
+          <input matStartDate formControlName="start" placeholder="Start date" (dateChange)="startDateChange()">
+          <input matEndDate formControlName="end" placeholder="End date" (dateChange)="endDateChange()">
+        </mat-date-range-input>
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-date-range-picker #picker></mat-date-range-picker>
       </mat-form-field>
     </div>
     <div class="flex">

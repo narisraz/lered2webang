@@ -1,5 +1,5 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {FormBuilder, FormGroup} from "@angular/forms";
 import {MAT_DIALOG_DATA} from "@angular/material/dialog";
 import DialogData from "../../dialog/DialogData";
 import Comment from "../../../core/interfaces/Comment";
