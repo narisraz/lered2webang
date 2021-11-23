@@ -25,14 +25,14 @@
         <mat-date-range-picker #picker></mat-date-range-picker>
       </mat-form-field>
     </div>
-    <div class="flex">
+    <div class="flex" *ngIf="isAdmin">
       <div class="flex-none mt-3">
         Vues :
       </div>
-      <button mat-icon-button (click)="switchToKanbanView()">
+      <button mat-icon-button (click)="switchToKanbanView()" [ngClass]="!kanbanView ? 'text-gray-600': ''">
         <mat-icon>view_module</mat-icon>
       </button>
-      <button mat-icon-button (click)="switchToTableView()">
+      <button mat-icon-button (click)="switchToTableView()" [ngClass]="!tableView ? 'text-gray-600': ''">
         <mat-icon>view_list</mat-icon>
       </button>
     </div>
