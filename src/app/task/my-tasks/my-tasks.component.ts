@@ -22,7 +22,7 @@ import KanbanData from "../../shared/kanban/models/kanban-data.model";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {FormBuilder, FormGroup} from "@angular/forms";
 import * as moment from "moment";
-import {Moment} from "moment";
+import * as _ from "lodash"
 
 
 @Component({
@@ -93,7 +93,7 @@ export class MyTasksComponent implements OnInit {
     ]).pipe(
       map(([startDate, endDate, searchValue, tasks]) => {
         let filteredTasks = tasks.filter(task => task.platformId == platformId)
-        return this.getFilteredTask(filteredTasks, startDate, endDate, searchValue)
+        return this.getFilteredTask(filteredTasks, startDate, endDate, searchValue, ['userName', 'title', 'compteName', 'platformName'])
       })
     )
   }
@@ -114,16 +114,6 @@ export class MyTasksComponent implements OnInit {
         this.taskService.delete(enhancedTask?.fsId ?? '')
       }
     })
-  }
-
-  filter(value: string) {
-    if (this.kanbanView) {
-      this.searchSubject$.next(value)
-    } else {
-      this.tables.map(table => {
-        table.doFilter(value)
-      })
-    }
   }
 
   buildBoard(): Observable<Board<any>> {
@@ -163,7 +153,7 @@ export class MyTasksComponent implements OnInit {
     ]).pipe(
       map(([startDate, endDate, searchValue, tasks]) => {
         let filteredTasks = tasks.filter(task => task.statusId == status?.fsId ?? '')
-        return this.getFilteredTask(filteredTasks, startDate, endDate, searchValue)
+        return this.getFilteredTask(filteredTasks, startDate, endDate, searchValue, ["userName", "title"])
       })
     )
   }
@@ -194,16 +184,20 @@ export class MyTasksComponent implements OnInit {
 
   get f() { return this.formGroup.controls }
 
-  getFilteredTask(tasks: EnhancedTask[], startDate: Moment, endDate: Moment, searchValue: string) {
+  getFilteredTask(tasks: EnhancedTask[], startDate: moment.Moment, endDate: moment.Moment, searchValue: string, attributesToFilter: string[]) {
     if (startDate && endDate) {
       tasks = tasks.filter(task => {
         return moment(task.insertDate).isBetween(startDate, endDate)
       })
     }
     if (searchValue) {
-      return tasks.filter(filteredTask =>
-        filteredTask.userName?.toLowerCase().includes(searchValue.toLowerCase())
-        || filteredTask.title?.toLowerCase().includes(searchValue.toLowerCase()))
+      return tasks.filter(task => {
+        const attributesValues = Object.keys(task)
+          .filter(key => attributesToFilter.includes(key))
+          .map(key => task[key as keyof EnhancedTask] as string)
+          .filter(value => value.toLowerCase().includes(searchValue.toLowerCase()))
+        return !_.isEmpty(attributesValues)
+      })
     }
     return tasks
   }
