@@ -1,5 +1,5 @@
-import {Component, OnInit} from '@angular/core';
-import {Observable} from "rxjs";
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Observable, Subscription} from "rxjs";
 import {TaskService} from "../../core/services/task.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
@@ -22,7 +22,7 @@ import {MatDialog} from "@angular/material/dialog";
   templateUrl: './task-detail.component.html',
   styleUrls: ['./task-detail.component.scss']
 })
-export class TaskDetailComponent implements OnInit {
+export class TaskDetailComponent implements OnInit, OnDestroy {
 
   collection = TASK_COLLECTION
 
@@ -30,6 +30,8 @@ export class TaskDetailComponent implements OnInit {
   isAdmin = false
   enhancedTask?: EnhancedTask
   loggedUser: User
+  taskSubscription: Subscription
+  userSubscription: Subscription
 
   task$: Observable<EnhancedTask | undefined>
   statutes$: Observable<Status[]>
@@ -51,8 +53,13 @@ export class TaskDetailComponent implements OnInit {
     private router: Router
   ) { }
 
+  ngOnDestroy(): void {
+    this.taskSubscription.unsubscribe()
+    this.userSubscription.unsubscribe()
+  }
+
   ngOnInit(): void {
-    this.authService.loggedUser.subscribe(user => {
+    this.userSubscription = this.authService.loggedUser.subscribe(user => {
       this.loggedUser = user
       this.isAdmin = this.userService.isAdmin(user)
     })
@@ -74,7 +81,7 @@ export class TaskDetailComponent implements OnInit {
       }
       this.formGroup = this.formBuilder.group(data)
 
-      this.task$.subscribe(task => {
+      this.taskSubscription = this.task$.subscribe(task => {
         this.enhancedTask = task
         this.f['statusId'].setValue(task?.statusId)
       })

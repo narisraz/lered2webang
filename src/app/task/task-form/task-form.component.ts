@@ -1,7 +1,7 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import Task from "../../core/interfaces/Task";
-import {Observable, of} from "rxjs";
+import {Observable, of, Subscription} from "rxjs";
 import {StatusService} from "../../core/services/status.service";
 import SelectData from "../../shared/form/select-field/SelectData";
 import {PlatformService} from "../../core/services/platform.service";
@@ -21,10 +21,12 @@ import {ROUTE_TYPE, ROUTE_TYPE_ADD} from "../../shared/dialog/Constants";
   templateUrl: './task-form.component.html',
   styleUrls: ['./task-form.component.scss']
 })
-export class TaskFormComponent implements OnInit {
+export class TaskFormComponent implements OnInit, OnDestroy {
 
   title = 'Nouvelle tâche'
   routeType = ROUTE_TYPE.indexOf(ROUTE_TYPE_ADD)
+
+  taskSubscription: Subscription
 
   formGroup: FormGroup
   statutesSelectData$: Observable<SelectData[]>;
@@ -86,7 +88,7 @@ export class TaskFormComponent implements OnInit {
       if (!taskId)
         return
       const task$: Observable<Task | undefined> = this.taskService.get(taskId)
-      task$.subscribe(task => {
+      this.taskSubscription = task$.subscribe(task => {
         this.updateCompte(task?.platformId ?? '')
         this.f['fsId'].setValue(task?.fsId)
         this.f['insertDate'].setValue(task?.insertDate)
@@ -136,5 +138,10 @@ export class TaskFormComponent implements OnInit {
   updateCompte(platformId: string) {
     const comptesByPlatforms$ = this.compteService.filterByPlatformId(this.comptes$, platformId)
     this.comptesSelectData$ = this.compteService.toSelectData(comptesByPlatforms$)
+  }
+
+  ngOnDestroy(): void {
+    if (this.taskSubscription)
+      this.taskSubscription.unsubscribe()
   }
 }

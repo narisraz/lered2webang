@@ -1,6 +1,6 @@
-import {Component, OnInit, QueryList, ViewChildren} from '@angular/core';
+import {Component, OnDestroy, OnInit, QueryList, ViewChildren} from '@angular/core';
 import {StatusService} from "../../core/services/status.service";
-import {BehaviorSubject, combineLatest, Observable} from "rxjs";
+import {BehaviorSubject, combineLatest, Observable, Subscription} from "rxjs";
 import Status from "../../core/interfaces/Status";
 import EnhancedTask from "../../core/interfaces/EnhancedTask";
 import {TaskService} from "../../core/services/task.service";
@@ -30,7 +30,7 @@ import * as _ from "lodash"
   templateUrl: './my-tasks.component.html',
   styleUrls: ['./my-tasks.component.scss']
 })
-export class MyTasksComponent implements OnInit {
+export class MyTasksComponent implements OnInit, OnDestroy {
 
   tableView = false
   kanbanView = true
@@ -40,6 +40,7 @@ export class MyTasksComponent implements OnInit {
   startSubject$ = new BehaviorSubject(moment().subtract(5, 'd').local(true).set({h: 0, m: 0}))
   endSubject$ = new BehaviorSubject(moment().local(true).set({h: 23, m: 59}))
   loggedUser$: Observable<User>
+  userSubscription: Subscription
   isAdmin: boolean = false
   platforms$: Observable<Platform[]>
   statutes$: Observable<Status[]>
@@ -68,6 +69,10 @@ export class MyTasksComponent implements OnInit {
     private formBuilder: FormBuilder
   ) { }
 
+  ngOnDestroy(): void {
+    this.userSubscription.unsubscribe()
+  }
+
   ngOnInit(): void {
     this.formGroup = this.formBuilder.group({
       search: [''],
@@ -78,7 +83,7 @@ export class MyTasksComponent implements OnInit {
     this.enhancedTask$ = this.taskService.getAllEnhancedTasks()
     this.platforms$ = this.platformService.getAll()
     this.statutes$ = this.statusService.getStatutesPerUserRole(this.loggedUser$)
-    this.loggedUser$.subscribe(user => {
+    this.userSubscription = this.loggedUser$.subscribe(user => {
       this.isAdmin = this.userService.isAdmin(user)
     })
     this.kanbanBoard$ = this.buildBoard()

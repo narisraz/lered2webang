@@ -3,7 +3,7 @@ import {
   ChangeDetectorRef,
   Component,
   EventEmitter,
-  Input,
+  Input, OnDestroy,
   OnInit,
   Output,
   ViewChild
@@ -12,7 +12,7 @@ import TableColumn from "./TableColumn";
 import {MatPaginator} from "@angular/material/paginator";
 import {MatTableDataSource} from "@angular/material/table";
 import {MatSort} from "@angular/material/sort";
-import {Observable} from "rxjs";
+import {Observable, Subscription} from "rxjs";
 import FirestoreData from "../../core/interfaces/FirestoreData";
 import * as _ from 'lodash'
 
@@ -26,7 +26,7 @@ interface Data extends FirestoreData {
   templateUrl: './table.component.html',
   styleUrls: ['./table.component.scss']
 })
-export class TableComponent implements AfterViewInit, OnInit {
+export class TableComponent implements AfterViewInit, OnInit, OnDestroy {
 
   @Input() isAdmin = false
 
@@ -54,6 +54,7 @@ export class TableComponent implements AfterViewInit, OnInit {
 
   @ViewChild(MatSort) sort: MatSort;
 
+  dataSubscription: Subscription
   loading = true
   displayedColumns?: string[] = []
   dataSource = new MatTableDataSource<any>()
@@ -62,9 +63,13 @@ export class TableComponent implements AfterViewInit, OnInit {
     private changeDetector: ChangeDetectorRef
   ) {}
 
+  ngOnDestroy(): void {
+    this.dataSubscription.unsubscribe()
+  }
+
   ngOnInit(): void {
     this.displayedColumns = this.columns.map(column => column.name)
-    this.data$.subscribe(data => {
+    this.dataSubscription = this.data$.subscribe(data => {
       this.loading = false
       this.dataSource.data = data
     })
