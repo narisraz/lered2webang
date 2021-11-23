@@ -2,7 +2,7 @@
   <h2>Mes tâches</h2>
 
   <div class="flex justify-between">
-    <div class="w-full mb-4">
+    <div class="w-full mb-4" [formGroup]="formGroup">
       <span *ngIf="isAdmin" class="mr-4">
         <button mat-raised-button [routerLink]="['/admin/task/new']">
           <mat-icon>add</mat-icon>
@@ -10,14 +10,14 @@
         </button>
       </span>
       <mat-form-field class="w-1/2">
-        <input #searchInput matInput type="text" placeholder="Rechercher" (keyup)="filter(searchInput.value)" />
-        <button *ngIf="searchInput.value" matSuffix mat-icon-button aria-label="Clear" (click)="searchInput.value=''">
+        <input #searchInput matInput type="text" placeholder="Rechercher" formControlName="search" (keyup)="searchValueChange()" />
+        <button *ngIf="searchInput.value" matSuffix mat-icon-button aria-label="Clear" (click)="clearSearchValue()">
           <mat-icon>close</mat-icon>
         </button>
       </mat-form-field>
       <mat-form-field class="ml-4">
         <mat-label>Date de création</mat-label>
-        <mat-date-range-input [rangePicker]="picker" [formGroup]="formGroup">
+        <mat-date-range-input [rangePicker]="picker">
           <input matStartDate formControlName="start" placeholder="Start date" (dateChange)="startDateChange()">
           <input matEndDate formControlName="end" placeholder="End date" (dateChange)="endDateChange()">
         </mat-date-range-input>

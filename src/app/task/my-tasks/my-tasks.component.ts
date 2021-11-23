@@ -22,6 +22,7 @@ import KanbanData from "../../shared/kanban/models/kanban-data.model";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {FormBuilder, FormGroup} from "@angular/forms";
 import * as moment from "moment";
+import {Moment} from "moment";
 
 
 @Component({
@@ -53,8 +54,7 @@ export class MyTasksComponent implements OnInit {
     { name: 'actions', label: 'Actions' },
   ]
 
-  @ViewChildren('table')
-  tables: QueryList<TableComponent>
+  @ViewChildren('table') tables: QueryList<TableComponent>
 
   constructor(
     private taskService: TaskService,
@@ -70,6 +70,7 @@ export class MyTasksComponent implements OnInit {
 
   ngOnInit(): void {
     this.formGroup = this.formBuilder.group({
+      search: [''],
       start: [moment().subtract(5, 'd').local(true).format()],
       end: [moment().local(true).format()],
     })
@@ -84,8 +85,16 @@ export class MyTasksComponent implements OnInit {
   }
 
   tasksByPlatform(platformId: string) {
-    return this.enhancedTask$.pipe(
-      map(tasks => tasks.filter(task => task.platformId == platformId))
+    return combineLatest([
+      this.startSubject$,
+      this.endSubject$,
+      this.searchSubject$,
+      this.enhancedTask$
+    ]).pipe(
+      map(([startDate, endDate, searchValue, tasks]) => {
+        let filteredTasks = tasks.filter(task => task.platformId == platformId)
+        return this.getFilteredTask(filteredTasks, startDate, endDate, searchValue)
+      })
     )
   }
 
@@ -154,17 +163,7 @@ export class MyTasksComponent implements OnInit {
     ]).pipe(
       map(([startDate, endDate, searchValue, tasks]) => {
         let filteredTasks = tasks.filter(task => task.statusId == status?.fsId ?? '')
-        if (startDate && endDate) {
-          filteredTasks = filteredTasks.filter(task => {
-            return moment(task.insertDate).isBetween(startDate, endDate)
-          })
-        }
-        if (searchValue) {
-          return filteredTasks.filter(filteredTask =>
-            filteredTask.userName?.toLowerCase().includes(searchValue.toLowerCase())
-            || filteredTask.title?.toLowerCase().includes(searchValue.toLowerCase()))
-        }
-        return filteredTasks
+        return this.getFilteredTask(filteredTasks, startDate, endDate, searchValue)
       })
     )
   }
@@ -194,6 +193,30 @@ export class MyTasksComponent implements OnInit {
   }
 
   get f() { return this.formGroup.controls }
+
+  getFilteredTask(tasks: EnhancedTask[], startDate: Moment, endDate: Moment, searchValue: string) {
+    if (startDate && endDate) {
+      tasks = tasks.filter(task => {
+        return moment(task.insertDate).isBetween(startDate, endDate)
+      })
+    }
+    if (searchValue) {
+      return tasks.filter(filteredTask =>
+        filteredTask.userName?.toLowerCase().includes(searchValue.toLowerCase())
+        || filteredTask.title?.toLowerCase().includes(searchValue.toLowerCase()))
+    }
+    return tasks
+  }
+
+  searchValueChange() {
+    const searchValue = this.f['search'].value
+    this.searchSubject$.next(searchValue)
+  }
+
+  clearSearchValue() {
+    this.searchSubject$.next('')
+    this.f['search'].setValue('')
+  }
 
   startDateChange() {
     const startDate = this.f['start'].value
