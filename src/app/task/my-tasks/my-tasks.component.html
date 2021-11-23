@@ -29,10 +29,10 @@
       <div class="flex-none mt-3">
         Vues :
       </div>
-      <button mat-icon-button (click)="switchToKanbanView()" [ngClass]="!kanbanView ? 'text-gray-600': ''">
+      <button mat-icon-button (click)="switchToKanbanView()" [ngClass]="!kanbanView ? 'text-gray-600': ''" matTooltip="Kanban">
         <mat-icon>view_module</mat-icon>
       </button>
-      <button mat-icon-button (click)="switchToTableView()" [ngClass]="!tableView ? 'text-gray-600': ''">
+      <button mat-icon-button (click)="switchToTableView()" [ngClass]="!tableView ? 'text-gray-600': ''" matTooltip="Table">
         <mat-icon>view_list</mat-icon>
       </button>
     </div>

@@ -19,6 +19,7 @@ import {MatListModule} from "@angular/material/list";
 import {MomentModule} from "ngx-moment";
 import {TaskCardComponent} from './task-card/task-card.component';
 import {MatDatepickerModule} from "@angular/material/datepicker";
+import {MatTooltipModule} from "@angular/material/tooltip";
 
 
 @NgModule({
@@ -44,7 +45,8 @@ import {MatDatepickerModule} from "@angular/material/datepicker";
     QuillModule,
     MatListModule,
     MomentModule,
-    MatDatepickerModule
+    MatDatepickerModule,
+    MatTooltipModule
   ],
   exports: [
     TaskFormComponent
